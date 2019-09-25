@@ -400,10 +400,10 @@ gulp.task('deploy-s3', function(done) {
 
 // Deploy cesium to s3
 function deployCesium(cacheControl, done) {
-    var bucketName = 'cesium.com';
-    var refDocPrefix = 'docs/cesiumjs-ref-doc';
+    var bucketName = 'cesium-dev';
+    var refDocPrefix = 'hpinkos-cesium.com-test/docs/cesiumjs-ref-doc';
     // var sandcastlePrefix = 'hpinkos-cesium.com-test/cesiumjs/sandcastle';
-    var cesiumViewerPrefix = 'cesiumjs/cesium-viewer';
+    var cesiumViewerPrefix = 'hpinkos-cesium.com-test/cesiumjs/cesium-viewer';
     var readFile = Promise.promisify(fs.readFile);
     var gzip = Promise.promisify(zlib.gzip);
     var concurrencyLimit = 2000;
