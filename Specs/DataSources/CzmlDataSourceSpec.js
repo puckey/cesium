@@ -1,5 +1,4 @@
-defineSuite([
-        'DataSources/CzmlDataSource',
+define([
         'Core/ArcType',
         'Core/BoundingRectangle',
         'Core/Cartesian2',
@@ -8,6 +7,7 @@ defineSuite([
         'Core/ClockStep',
         'Core/Color',
         'Core/CornerType',
+        'Core/Credit',
         'Core/DistanceDisplayCondition',
         'Core/Event',
         'Core/ExtrapolationType',
@@ -31,6 +31,7 @@ defineSuite([
         'DataSources/CompositeProperty',
         'DataSources/ConstantPositionProperty',
         'DataSources/ConstantProperty',
+        'DataSources/CzmlDataSource',
         'DataSources/EntityCollection',
         'DataSources/ReferenceProperty',
         'DataSources/SampledPositionProperty',
@@ -47,7 +48,6 @@ defineSuite([
         'Scene/VerticalOrigin',
         'ThirdParty/when'
     ], function(
-        CzmlDataSource,
         ArcType,
         BoundingRectangle,
         Cartesian2,
@@ -56,6 +56,7 @@ defineSuite([
         ClockStep,
         Color,
         CornerType,
+        Credit,
         DistanceDisplayCondition,
         Event,
         ExtrapolationType,
@@ -79,6 +80,7 @@ defineSuite([
         CompositeProperty,
         ConstantPositionProperty,
         ConstantProperty,
+        CzmlDataSource,
         EntityCollection,
         ReferenceProperty,
         SampledPositionProperty,
@@ -94,7 +96,9 @@ defineSuite([
         ShadowMode,
         VerticalOrigin,
         when) {
-    'use strict';
+        'use strict';
+
+describe('DataSources/CzmlDataSource', function() {
 
     function makeDocument(packet) {
         var documentPacket = {
@@ -211,6 +215,7 @@ defineSuite([
         expect(dataSource.entities).toBeInstanceOf(EntityCollection);
         expect(dataSource.entities.values.length).toEqual(0);
         expect(dataSource.show).toEqual(true);
+        expect(dataSource.credit).toBeUndefined();
     });
 
     it('show sets underlying entity collection show.', function() {
@@ -237,6 +242,14 @@ defineSuite([
         }).then(function(dataSource) {
             expect(dataSource.name).toEqual('simple.czml');
         });
+    });
+
+    it('credit gets set from options', function() {
+        return CzmlDataSource.load(nameCzml, {
+                credit: 'This is my credit'
+            }).then(function(dataSource) {
+                expect(dataSource.credit).toBeInstanceOf(Credit);
+            });
     });
 
     it('does not overwrite existing name if CZML name is undefined', function() {
@@ -7928,4 +7941,5 @@ defineSuite([
             expect(e.properties.custom_wsenDegrees.getValue(documentStopDate)).toEqual(Rectangle.fromDegrees(37, 16, 25, 23));
         });
     });
+});
 });

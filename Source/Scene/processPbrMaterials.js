@@ -1,23 +1,23 @@
 define([
-        './ModelUtility',
-        '../Core/defined',
         '../Core/defaultValue',
+        '../Core/defined',
         '../Core/WebGLConstants',
         '../Core/webGLConstantToGlslType',
         '../ThirdParty/GltfPipeline/addToArray',
         '../ThirdParty/GltfPipeline/ForEach',
         '../ThirdParty/GltfPipeline/hasExtension',
-        '../ThirdParty/GltfPipeline/numberOfComponentsForType'
+        '../ThirdParty/GltfPipeline/numberOfComponentsForType',
+        './ModelUtility'
     ], function(
-        ModelUtility,
-        defined,
         defaultValue,
+        defined,
         WebGLConstants,
         webGLConstantToGlslType,
         addToArray,
         ForEach,
         hasExtension,
-        numberOfComponentsForType) {
+        numberOfComponentsForType,
+        ModelUtility) {
     'use strict';
 
     /**
@@ -792,7 +792,7 @@ define([
             fragmentShader += '    float luminance = gltf_luminanceAtZenith * (numerator / denominator);\n';
             fragmentShader += '#endif \n';
 
-            fragmentShader += '    vec2 brdfLut = texture2D(czm_brdfLut, vec2(NdotV, 1.0 - roughness)).rg;\n';
+            fragmentShader += '    vec2 brdfLut = texture2D(czm_brdfLut, vec2(NdotV, roughness)).rg;\n';
             fragmentShader += '    vec3 IBLColor = (diffuseIrradiance * diffuseColor * gltf_iblFactor.x) + (specularIrradiance * SRGBtoLINEAR3(specularColor * brdfLut.x + brdfLut.y) * gltf_iblFactor.y);\n';
 
             fragmentShader += '#ifdef USE_SUN_LUMINANCE \n';
