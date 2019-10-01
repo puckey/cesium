@@ -2670,9 +2670,10 @@ define([
      * @param {BoundingSphere} boundingSphere The bounding sphere in world coordinates.
      * @param {Number} drawingBufferWidth The drawing buffer width.
      * @param {Number} drawingBufferHeight The drawing buffer height.
+     * @param {Number} pixelRatio The scaling factor from pixel space to coordinate space.
      * @returns {Number} The pixel size in meters.
      */
-    Camera.prototype.getPixelSize = function(boundingSphere, drawingBufferWidth, drawingBufferHeight) {
+    Camera.prototype.getPixelSize = function(boundingSphere, drawingBufferWidth, drawingBufferHeight, pixelRatio) {
         //>>includeStart('debug', pragmas.debug);
         if (!defined(boundingSphere)) {
             throw new DeveloperError('boundingSphere is required.');
@@ -2683,10 +2684,13 @@ define([
         if (!defined(drawingBufferHeight)) {
             throw new DeveloperError('drawingBufferHeight is required.');
         }
+        if (!defined(pixelRatio)) {
+            throw new DeveloperError('pixelRatio is required.');
+        }
         //>>includeEnd('debug');
 
         var distance = this.distanceToBoundingSphere(boundingSphere);
-        var pixelSize = this.frustum.getPixelDimensions(drawingBufferWidth, drawingBufferHeight, distance, scratchPixelSize);
+        var pixelSize = this.frustum.getPixelDimensions(drawingBufferWidth, drawingBufferHeight, pixelRatio, distance, scratchPixelSize);
         return Math.max(pixelSize.x, pixelSize.y);
     };
 

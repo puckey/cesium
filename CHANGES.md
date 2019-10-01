@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+### 1.63 - 2019-11-01
+
+##### Additions :tada:
+* Added `pixelRatio` parameter to `Camera.getPixelSize`, `OrthographicFrustum.getPixelDimensions`, `OrthographicOffCenterFrustum.getPixelDimensions`, `PerspectiveFrustum.getPixelDimensions`, and `PerspectiveOffCenterFrustum.getPixelDimensions`. Pass in `scene.pixelRatio` for css pixel sizes or `1.0` for native device pixel sizes.
+
+##### Fixes :wrench:
+* Fixed css pixel usage for `BillboardCollection`, `Model`, `Primitive`, and `PointPrimtiveCollection`. [#8113](https://github.com/AnalyticalGraphicsInc/cesium/issues/8113)
+
 ### 1.62 - 2019-10-01
 
 ##### Deprecated :hourglass_flowing_sand:

@@ -1786,7 +1786,7 @@ define([
             for (i = 0; i < length; ++i) {
                 boundingSphere = primitive._boundingSpheres[i];
                 var boundingSphereWC = primitive._boundingSphereWC[i];
-                var pixelSizeInMeters = frameState.camera.getPixelSize(boundingSphere, frameState.context.drawingBufferWidth, frameState.context.drawingBufferHeight);
+                var pixelSizeInMeters = frameState.camera.getPixelSize(boundingSphere, frameState.context.drawingBufferWidth, frameState.context.drawingBufferHeight, frameState.pixelRatio);
                 var sizeInMeters = pixelSizeInMeters * pixelSize;
                 boundingSphereWC.radius = boundingSphere.radius + sizeInMeters;
             }

@@ -4378,7 +4378,7 @@ define([
     function scaleInPixels(positionWC, radius, frameState) {
         scratchBoundingSphere.center = positionWC;
         scratchBoundingSphere.radius = radius;
-        return frameState.camera.getPixelSize(scratchBoundingSphere, frameState.context.drawingBufferWidth, frameState.context.drawingBufferHeight);
+        return frameState.camera.getPixelSize(scratchBoundingSphere, frameState.context.drawingBufferWidth, frameState.context.drawingBufferHeight, frameState.pixelRatio);
     }
 
     var scratchPosition = new Cartesian3();
