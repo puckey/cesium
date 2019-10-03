@@ -140,9 +140,8 @@ import WallGraphics from './WallGraphics.js';
 
     var autolinker = new Autolinker({
         stripPrefix : false,
-        twitter : false,
         email : false,
-        replaceFn : function(linker, match) {
+        replaceFn : function(match) {
             if (!match.protocolUrlMatch) {
                 //Prevent matching of non-explicit urls.
                 //i.e. foo.id won't match but http://foo.id will
