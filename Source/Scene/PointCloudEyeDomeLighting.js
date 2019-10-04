@@ -38,15 +38,6 @@ import PointCloudEyeDomeLightingShader from '../Shaders/PostProcessStages/PointC
         this._radius = 1.0;
     }
 
-    function createSampler() {
-        return new Sampler({
-            wrapS : TextureWrap.CLAMP_TO_EDGE,
-            wrapT : TextureWrap.CLAMP_TO_EDGE,
-            minificationFilter : TextureMinificationFilter.NEAREST,
-            magnificationFilter : TextureMagnificationFilter.NEAREST
-        });
-    }
-
     function destroyFramebuffer(processor) {
         var framebuffer = processor._framebuffer;
         if (!defined(framebuffer)) {
@@ -76,7 +67,12 @@ import PointCloudEyeDomeLightingShader from '../Shaders/PostProcessStages/PointC
             height : screenHeight,
             pixelFormat : PixelFormat.RGBA,
             pixelDatatype : PixelDatatype.UNSIGNED_BYTE,
-            sampler : createSampler()
+            sampler : new Sampler({
+                wrapS : TextureWrap.CLAMP_TO_EDGE,
+                wrapT : TextureWrap.CLAMP_TO_EDGE,
+                minificationFilter : TextureMinificationFilter.NEAREST,
+                magnificationFilter : TextureMagnificationFilter.NEAREST
+            })
         });
 
         var depthGBuffer = new Texture({
@@ -85,7 +81,12 @@ import PointCloudEyeDomeLightingShader from '../Shaders/PostProcessStages/PointC
             height : screenHeight,
             pixelFormat : PixelFormat.RGBA,
             pixelDatatype : PixelDatatype.UNSIGNED_BYTE,
-            sampler : createSampler()
+            sampler : new Sampler({
+                wrapS : TextureWrap.CLAMP_TO_EDGE,
+                wrapT : TextureWrap.CLAMP_TO_EDGE,
+                minificationFilter : TextureMinificationFilter.LINEAR,
+                magnificationFilter : TextureMagnificationFilter.LINEAR
+            })
         });
 
         var depthTexture = new Texture({
@@ -94,7 +95,12 @@ import PointCloudEyeDomeLightingShader from '../Shaders/PostProcessStages/PointC
             height : screenHeight,
             pixelFormat : PixelFormat.DEPTH_COMPONENT,
             pixelDatatype : PixelDatatype.UNSIGNED_INT,
-            sampler : createSampler()
+            sampler : new Sampler({
+                wrapS : TextureWrap.CLAMP_TO_EDGE,
+                wrapT : TextureWrap.CLAMP_TO_EDGE,
+                minificationFilter : TextureMinificationFilter.NEAREST,
+                magnificationFilter : TextureMagnificationFilter.NEAREST
+            })
         });
 
         processor._framebuffer = new Framebuffer({

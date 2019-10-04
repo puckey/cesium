@@ -8,9 +8,6 @@ varying vec2 v_textureCoordinates;
 vec2 neighborContribution(float log2Depth, vec2 padding)
 {
     float depthOrLogDepth = czm_unpackDepth(texture2D(u_pointCloud_depthGBuffer, v_textureCoordinates + padding));
-    if (depthOrLogDepth == 0.0) { // 0.0 is the clear value for the gbuffer
-        return vec2(0.0);
-    }
     vec4 eyeCoordinate = czm_windowToEyeCoordinates(v_textureCoordinates + padding, depthOrLogDepth);
     return vec2(max(0.0, log2Depth - log2(-eyeCoordinate.z / eyeCoordinate.w)), 1.0);
 }
