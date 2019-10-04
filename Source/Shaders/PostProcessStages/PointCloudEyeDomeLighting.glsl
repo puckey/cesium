@@ -5,11 +5,11 @@ uniform sampler2D u_pointCloud_depthGBuffer;
 uniform vec3 u_distancesAndEdlStrength;
 varying vec2 v_textureCoordinates;
 
-vec2 neighborContribution(float log2Depth, vec2 padding)
+float neighborContribution(float log2Depth, vec2 padding)
 {
     float depthOrLogDepth = czm_unpackDepth(texture2D(u_pointCloud_depthGBuffer, v_textureCoordinates + padding));
     vec4 eyeCoordinate = czm_windowToEyeCoordinates(v_textureCoordinates + padding, depthOrLogDepth);
-    return vec2(max(0.0, log2Depth - log2(-eyeCoordinate.z / eyeCoordinate.w)), 1.0);
+    return max(0.0, log2Depth - log2(-eyeCoordinate.z / eyeCoordinate.w));
 }
 
 void main()
@@ -32,14 +32,13 @@ void main()
     float distX = u_distancesAndEdlStrength.x;
     float distY = u_distancesAndEdlStrength.y;
 
-    vec2 responseAndCount = vec2(0.0);
+    float response = 0.0;
+    response += neighborContribution(log2Depth, vec2(0, distY));
+    response += neighborContribution(log2Depth, vec2(distX, 0));
+    response += neighborContribution(log2Depth, vec2(0, -distY));
+    response += neighborContribution(log2Depth, vec2(-distX, 0));
+    response *= 0.25;
 
-    responseAndCount += neighborContribution(log2Depth, vec2(0, distY));
-    responseAndCount += neighborContribution(log2Depth, vec2(distX, 0));
-    responseAndCount += neighborContribution(log2Depth, vec2(0, -distY));
-    responseAndCount += neighborContribution(log2Depth, vec2(-distX, 0));
-
-    float response = responseAndCount.x / responseAndCount.y;
     float shade = exp(-response * 300.0 * u_distancesAndEdlStrength.z);
     color.rgb *= shade;
     gl_FragColor = vec4(color);
