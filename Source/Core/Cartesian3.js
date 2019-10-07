@@ -403,10 +403,15 @@ import CesiumMath from './Math.js';
 
         var magnitude = Cartesian3.magnitude(cartesian);
 
-        result.x = cartesian.x / magnitude;
-        result.y = cartesian.y / magnitude;
-        result.z = cartesian.z / magnitude;
-
+        if (magnitude === 0) {
+          result.x = 0
+          result.y = 0
+          result.z = 0
+        } else {
+            result.x = cartesian.x / magnitude;
+            result.y = cartesian.y / magnitude;
+            result.z = cartesian.z / magnitude;
+        }
         //>>includeStart('debug', pragmas.debug);
         if (isNaN(result.x) || isNaN(result.y) || isNaN(result.z)) {
             throw new DeveloperError('normalized result is not a number');
