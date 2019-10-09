@@ -591,11 +591,11 @@ import ScreenSpaceEventType from './ScreenSpaceEventType.js';
 
                 var dX = position2.x - position1.x;
                 var dY = position2.y - position1.y;
-                var dist = Math.sqrt(dX * dX + dY * dY) * 0.25;
+                var dist = Math.sqrt(dX * dX + dY * dY);
 
                 var prevDX = previousPosition2.x - previousPosition1.x;
                 var prevDY = previousPosition2.y - previousPosition1.y;
-                var prevDist = Math.sqrt(prevDX * prevDX + prevDY * prevDY) * 0.25;
+                var prevDist = Math.sqrt(prevDX * prevDX + prevDY * prevDY);
 
                 var cY = (position2.y + position1.y) * 0.125;
                 var prevCY = (previousPosition2.y + previousPosition1.y) * 0.125;
