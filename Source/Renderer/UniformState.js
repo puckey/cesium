@@ -12,7 +12,7 @@ import CesiumMath from '../Core/Math.js';
 import Matrix3 from '../Core/Matrix3.js';
 import Matrix4 from '../Core/Matrix4.js';
 import OrthographicFrustum from '../Core/OrthographicFrustum.js';
-import Simon1994PlanetaryPositions from '../Core/Simon1994PlanetaryPositions.js';
+// import Simon1994PlanetaryPositions from '../Core/Simon1994PlanetaryPositions.js';
 import Transforms from '../Core/Transforms.js';
 import SceneMode from '../Scene/SceneMode.js';
 
@@ -1006,31 +1006,31 @@ import SceneMode from '../Scene/SceneMode.js';
         uniformState._encodedCameraPositionMCDirty = true;
     }
 
-    var transformMatrix = new Matrix3();
-    var sunCartographicScratch = new Cartographic();
-    function setSunAndMoonDirections(uniformState, frameState) {
-        if (!defined(Transforms.computeIcrfToFixedMatrix(frameState.time, transformMatrix))) {
-            transformMatrix = Transforms.computeTemeToPseudoFixedMatrix(frameState.time, transformMatrix);
-        }
+    // var transformMatrix = new Matrix3();
+    // var sunCartographicScratch = new Cartographic();
+    // function setSunAndMoonDirections(uniformState, frameState) {
+    //     if (!defined(Transforms.computeIcrfToFixedMatrix(frameState.time, transformMatrix))) {
+    //         transformMatrix = Transforms.computeTemeToPseudoFixedMatrix(frameState.time, transformMatrix);
+    //     }
 
-        var position = Simon1994PlanetaryPositions.computeSunPositionInEarthInertialFrame(frameState.time, uniformState._sunPositionWC);
-        Matrix3.multiplyByVector(transformMatrix, position, position);
+    //     var position = Simon1994PlanetaryPositions.computeSunPositionInEarthInertialFrame(frameState.time, uniformState._sunPositionWC);
+    //     Matrix3.multiplyByVector(transformMatrix, position, position);
 
-        Cartesian3.normalize(position, uniformState._sunDirectionWC);
+    //     Cartesian3.normalize(position, uniformState._sunDirectionWC);
 
-        position = Matrix3.multiplyByVector(uniformState.viewRotation3D, position, uniformState._sunDirectionEC);
-        Cartesian3.normalize(position, position);
+    //     position = Matrix3.multiplyByVector(uniformState.viewRotation3D, position, uniformState._sunDirectionEC);
+    //     Cartesian3.normalize(position, position);
 
-        position = Simon1994PlanetaryPositions.computeMoonPositionInEarthInertialFrame(frameState.time, uniformState._moonDirectionEC);
-        Matrix3.multiplyByVector(transformMatrix, position, position);
-        Matrix3.multiplyByVector(uniformState.viewRotation3D, position, position);
-        Cartesian3.normalize(position, position);
+    //     position = Simon1994PlanetaryPositions.computeMoonPositionInEarthInertialFrame(frameState.time, uniformState._moonDirectionEC);
+    //     Matrix3.multiplyByVector(transformMatrix, position, position);
+    //     Matrix3.multiplyByVector(uniformState.viewRotation3D, position, position);
+    //     Cartesian3.normalize(position, position);
 
-        var projection = frameState.mapProjection;
-        var ellipsoid = projection.ellipsoid;
-        var sunCartographic = ellipsoid.cartesianToCartographic(uniformState._sunPositionWC, sunCartographicScratch);
-        projection.project(sunCartographic, uniformState._sunPositionColumbusView);
-    }
+    //     var projection = frameState.mapProjection;
+    //     var ellipsoid = projection.ellipsoid;
+    //     var sunCartographic = ellipsoid.cartesianToCartographic(uniformState._sunPositionWC, sunCartographicScratch);
+    //     projection.project(sunCartographic, uniformState._sunPositionColumbusView);
+    // }
 
     /**
      * Synchronizes the frustum's state with the camera state.  This is called
@@ -1111,8 +1111,8 @@ import SceneMode from '../Scene/SceneMode.js';
             this._eyeHeight2D.y = 0.0;
         }
 
-        setSunAndMoonDirections(this, frameState);
-        this._sunColor = Cartesian3.clone(frameState.sunColor, this._sunColor);
+        // setSunAndMoonDirections(this, frameState);
+        // this._sunColor = Cartesian3.clone(frameState.sunColor, this._sunColor);
 
         var brdfLutGenerator = frameState.brdfLutGenerator;
         var brdfLut = defined(brdfLutGenerator) ? brdfLutGenerator.colorTexture : undefined;
