@@ -141,8 +141,8 @@ import ImageryProvider from './ImageryProvider.js';
             if (!defined(tileInfo)) {
                 that._useTiles = false;
             } else {
-                that._tileWidth = tileInfo.rows;
-                that._tileHeight = tileInfo.cols;
+                that._tileWidth = tileInfo.rows * window.devicePixelRatio;
+                that._tileHeight = tileInfo.cols * window.devicePixelRatio;
 
                 if (tileInfo.spatialReference.wkid === 102100 ||
                     tileInfo.spatialReference.wkid === 102113) {
@@ -474,40 +474,40 @@ import ImageryProvider from './ImageryProvider.js';
 
     function buildImageResource(imageryProvider, x, y, level, request) {
         var resource;
-        if (imageryProvider._useTiles) {
+        // if (imageryProvider._useTiles) {
             resource = imageryProvider._resource.getDerivedResource({
                 url: 'tile/' + level + '/' + y + '/' + x,
                 request: request
             });
-        } else {
-            var nativeRectangle = imageryProvider._tilingScheme.tileXYToNativeRectangle(x, y, level);
-            var bbox = nativeRectangle.west + ',' + nativeRectangle.south + ',' + nativeRectangle.east + ',' + nativeRectangle.north;
+        // } else {
+        //     var nativeRectangle = imageryProvider._tilingScheme.tileXYToNativeRectangle(x, y, level);
+        //     var bbox = nativeRectangle.west + ',' + nativeRectangle.south + ',' + nativeRectangle.east + ',' + nativeRectangle.north;
 
-            var query = {
-                bbox: bbox,
-                size: imageryProvider._tileWidth + ',' + imageryProvider._tileHeight,
-                format: 'png',
-                transparent: true,
-                f: 'image'
-            };
+        //     var query = {
+        //         bbox: bbox,
+        //         size: imageryProvider._tileWidth + ',' + imageryProvider._tileHeight,
+        //         format: 'png',
+        //         transparent: true,
+        //         f: 'image'
+        //     };
 
-            if (imageryProvider._tilingScheme.projection instanceof GeographicProjection) {
-                query.bboxSR = 4326;
-                query.imageSR = 4326;
-            } else {
-                query.bboxSR = 3857;
-                query.imageSR = 3857;
-            }
-            if (imageryProvider.layers) {
-                query.layers = 'show:' + imageryProvider.layers;
-            }
+        //     if (imageryProvider._tilingScheme.projection instanceof GeographicProjection) {
+        //         query.bboxSR = 4326;
+        //         query.imageSR = 4326;
+        //     } else {
+        //         query.bboxSR = 3857;
+        //         query.imageSR = 3857;
+        //     }
+        //     if (imageryProvider.layers) {
+        //         query.layers = 'show:' + imageryProvider.layers;
+        //     }
 
-            resource = imageryProvider._resource.getDerivedResource({
-                url: 'export',
-                request: request,
-                queryParameters: query
-            });
-        }
+        //     resource = imageryProvider._resource.getDerivedResource({
+        //         url: 'export',
+        //         request: request,
+        //         queryParameters: query
+        //     });
+        // }
 
         return resource;
     }
