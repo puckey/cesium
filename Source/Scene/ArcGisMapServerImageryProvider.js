@@ -838,86 +838,86 @@ import ImageryProvider from './ImageryProvider.js';
      *
      * @exception {DeveloperError} <code>pickFeatures</code> must not be called before the imagery provider is ready.
      */
-    ArcGisMapServerImageryProvider.prototype.pickFeatures = function(x, y, level, longitude, latitude) {
-        //>>includeStart('debug', pragmas.debug);
-        if (!this._ready) {
-            throw new DeveloperError('pickFeatures must not be called before the imagery provider is ready.');
-        }
-        //>>includeEnd('debug');
+    // ArcGisMapServerImageryProvider.prototype.pickFeatures = function(x, y, level, longitude, latitude) {
+    //     //>>includeStart('debug', pragmas.debug);
+    //     if (!this._ready) {
+    //         throw new DeveloperError('pickFeatures must not be called before the imagery provider is ready.');
+    //     }
+    //     //>>includeEnd('debug');
 
-        if (!this.enablePickFeatures) {
-            return undefined;
-        }
+    //     if (!this.enablePickFeatures) {
+    //         return undefined;
+    //     }
 
-        var rectangle = this._tilingScheme.tileXYToNativeRectangle(x, y, level);
+    //     var rectangle = this._tilingScheme.tileXYToNativeRectangle(x, y, level);
 
-        var horizontal;
-        var vertical;
-        var sr;
-        if (this._tilingScheme.projection instanceof GeographicProjection) {
-            horizontal = CesiumMath.toDegrees(longitude);
-            vertical = CesiumMath.toDegrees(latitude);
-            sr = '4326';
-        } else {
-            var projected = this._tilingScheme.projection.project(new Cartographic(longitude, latitude, 0.0));
-            horizontal = projected.x;
-            vertical = projected.y;
-            sr = '3857';
-        }
+    //     var horizontal;
+    //     var vertical;
+    //     var sr;
+    //     if (this._tilingScheme.projection instanceof GeographicProjection) {
+    //         horizontal = CesiumMath.toDegrees(longitude);
+    //         vertical = CesiumMath.toDegrees(latitude);
+    //         sr = '4326';
+    //     } else {
+    //         var projected = this._tilingScheme.projection.project(new Cartographic(longitude, latitude, 0.0));
+    //         horizontal = projected.x;
+    //         vertical = projected.y;
+    //         sr = '3857';
+    //     }
 
-        var layers = 'visible';
-        if (defined(this._layers)) {
-            layers += ':' + this._layers;
-        }
+    //     var layers = 'visible';
+    //     if (defined(this._layers)) {
+    //         layers += ':' + this._layers;
+    //     }
 
-        var query = {
-            f: 'json',
-            tolerance: 2,
-            geometryType: 'esriGeometryPoint',
-            geometry: horizontal + ',' + vertical,
-            mapExtent: rectangle.west + ',' + rectangle.south + ',' + rectangle.east + ',' + rectangle.north,
-            imageDisplay: this._tileWidth + ',' + this._tileHeight + ',96',
-            sr: sr,
-            layers: layers
-        };
+    //     var query = {
+    //         f: 'json',
+    //         tolerance: 2,
+    //         geometryType: 'esriGeometryPoint',
+    //         geometry: horizontal + ',' + vertical,
+    //         mapExtent: rectangle.west + ',' + rectangle.south + ',' + rectangle.east + ',' + rectangle.north,
+    //         imageDisplay: this._tileWidth + ',' + this._tileHeight + ',96',
+    //         sr: sr,
+    //         layers: layers
+    //     };
 
-        var resource = this._resource.getDerivedResource({
-            url: 'identify',
-            queryParameters: query
-        });
+    //     var resource = this._resource.getDerivedResource({
+    //         url: 'identify',
+    //         queryParameters: query
+    //     });
 
-        return resource.fetchJson().then(function(json) {
-            var result = [];
+    //     return resource.fetchJson().then(function(json) {
+    //         var result = [];
 
-            var features = json.results;
-            if (!defined(features)) {
-                return result;
-            }
+    //         var features = json.results;
+    //         if (!defined(features)) {
+    //             return result;
+    //         }
 
-            for (var i = 0; i < features.length; ++i) {
-                var feature = features[i];
+    //         for (var i = 0; i < features.length; ++i) {
+    //             var feature = features[i];
 
-                var featureInfo = new ImageryLayerFeatureInfo();
-                featureInfo.data = feature;
-                featureInfo.name = feature.value;
-                featureInfo.properties = feature.attributes;
-                featureInfo.configureDescriptionFromProperties(feature.attributes);
+    //             var featureInfo = new ImageryLayerFeatureInfo();
+    //             featureInfo.data = feature;
+    //             featureInfo.name = feature.value;
+    //             featureInfo.properties = feature.attributes;
+    //             featureInfo.configureDescriptionFromProperties(feature.attributes);
 
-                // If this is a point feature, use the coordinates of the point.
-                if (feature.geometryType === 'esriGeometryPoint' && feature.geometry) {
-                    var wkid = feature.geometry.spatialReference && feature.geometry.spatialReference.wkid ? feature.geometry.spatialReference.wkid : 4326;
-                    if (wkid === 4326 || wkid === 4283) {
-                        featureInfo.position = Cartographic.fromDegrees(feature.geometry.x, feature.geometry.y, feature.geometry.z);
-                    } else if (wkid === 102100 || wkid === 900913 || wkid === 3857) {
-                        var projection = new WebMercatorProjection();
-                        featureInfo.position = projection.unproject(new Cartesian3(feature.geometry.x, feature.geometry.y, feature.geometry.z));
-                    }
-                }
+    //             // If this is a point feature, use the coordinates of the point.
+    //             if (feature.geometryType === 'esriGeometryPoint' && feature.geometry) {
+    //                 var wkid = feature.geometry.spatialReference && feature.geometry.spatialReference.wkid ? feature.geometry.spatialReference.wkid : 4326;
+    //                 if (wkid === 4326 || wkid === 4283) {
+    //                     featureInfo.position = Cartographic.fromDegrees(feature.geometry.x, feature.geometry.y, feature.geometry.z);
+    //                 } else if (wkid === 102100 || wkid === 900913 || wkid === 3857) {
+    //                     var projection = new WebMercatorProjection();
+    //                     featureInfo.position = projection.unproject(new Cartesian3(feature.geometry.x, feature.geometry.y, feature.geometry.z));
+    //                 }
+    //             }
 
-                result.push(featureInfo);
-            }
+    //             result.push(featureInfo);
+    //         }
 
-            return result;
-        });
-    };
+    //         return result;
+    //     });
+    // };
 export default ArcGisMapServerImageryProvider;
