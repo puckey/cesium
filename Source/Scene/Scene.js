@@ -1604,9 +1604,9 @@ import View from './View.js';
 
         var derivedCommands = command.derivedCommands;
 
-        if (defined(command.pickId)) {
-            derivedCommands.picking = DerivedCommand.createPickDerivedCommand(scene, command, context, derivedCommands.picking);
-        }
+        // if (defined(command.pickId)) {
+        //     derivedCommands.picking = DerivedCommand.createPickDerivedCommand(scene, command, context, derivedCommands.picking);
+        // }
 
         if (!command.pickOnly) {
             derivedCommands.depth = DerivedCommand.createDepthOnlyDerivedCommand(scene, command, context, derivedCommands.depth);
