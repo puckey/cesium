@@ -1,24 +1,24 @@
 import Cartesian2 from '../Core/Cartesian2.js';
 import Cartesian3 from '../Core/Cartesian3.js';
-import Cartographic from '../Core/Cartographic.js';
+// import Cartographic from '../Core/Cartographic.js';
 import Credit from '../Core/Credit.js';
 import defaultValue from '../Core/defaultValue.js';
 import defined from '../Core/defined.js';
 import defineProperties from '../Core/defineProperties.js';
 import DeveloperError from '../Core/DeveloperError.js';
 import Event from '../Core/Event.js';
-import GeographicProjection from '../Core/GeographicProjection.js';
+// import GeographicProjection from '../Core/GeographicProjection.js';
 import GeographicTilingScheme from '../Core/GeographicTilingScheme.js';
-import CesiumMath from '../Core/Math.js';
+// import CesiumMath from '../Core/Math.js';
 import Rectangle from '../Core/Rectangle.js';
 import Resource from '../Core/Resource.js';
-import RuntimeError from '../Core/RuntimeError.js';
+// import RuntimeError from '../Core/RuntimeError.js';
 import TileProviderError from '../Core/TileProviderError.js';
 import WebMercatorProjection from '../Core/WebMercatorProjection.js';
 import WebMercatorTilingScheme from '../Core/WebMercatorTilingScheme.js';
 import when from '../ThirdParty/when.js';
 import DiscardMissingTileImagePolicy from './DiscardMissingTileImagePolicy.js';
-import ImageryLayerFeatureInfo from './ImageryLayerFeatureInfo.js';
+// import ImageryLayerFeatureInfo from './ImageryLayerFeatureInfo.js';
 import ImageryProvider from './ImageryProvider.js';
 
     /**
