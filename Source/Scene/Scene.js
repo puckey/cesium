@@ -57,7 +57,7 @@ import JobScheduler from './JobScheduler.js';
 import OctahedralProjectedCubeMap from './OctahedralProjectedCubeMap.js';
 import PerformanceDisplay from './PerformanceDisplay.js';
 import PerInstanceColorAppearance from './PerInstanceColorAppearance.js';
-import Picking from './Picking.js';
+// import Picking from './Picking.js';
 // import PostProcessStageCollection from './PostProcessStageCollection.js';
 import Primitive from './Primitive.js';
 import PrimitiveCollection from './PrimitiveCollection.js';
@@ -493,7 +493,7 @@ import View from './View.js';
          * @type Boolean
          * @default true
          */
-        this.useDepthPicking = true;
+        // this.useDepthPicking = true;
 
         /**
          * When <code>true</code>, enables picking translucent geometry using the depth buffer. Note that {@link Scene#useDepthPicking} must also be true for enabling this to work.
@@ -615,7 +615,7 @@ import View from './View.js';
 
             clearGlobeDepth : false,
             useDepthPlane : false,
-            renderTranslucentDepthForPick : false,
+            // renderTranslucentDepthForPick : false,
 
             originalFramebuffer : undefined,
             useGlobeDepthFramebuffer : false,
@@ -690,7 +690,7 @@ import View from './View.js';
          */
         this.preloadFlightCullingVolume = undefined;
 
-        this._picking = new Picking(this);
+        // this._picking = new Picking(this);
         this._defaultView = new View(this, camera, viewport);
         this._view = this._defaultView;
 
@@ -989,11 +989,11 @@ import View from './View.js';
          *
          * @private
          */
-        picking : {
-            get : function() {
-                return this._picking;
-            }
-        },
+        // picking : {
+        //     get : function() {
+        //         return this._picking;
+        //     }
+        // },
 
         /**
          * Gets the controller for camera input handling.
@@ -1596,11 +1596,11 @@ import View from './View.js';
     };
 
     function updateDerivedCommands(scene, command, shadowsDirty) {
-        var frameState = scene._frameState;
+        // var frameState = scene._frameState;
         var context = scene._context;
         var oit = scene._view.oit;
-        var lightShadowMaps = frameState.shadowState.lightShadowMaps;
-        var lightShadowsEnabled = frameState.shadowState.lightShadowsEnabled;
+        // var lightShadowMaps = frameState.shadowState.lightShadowMaps;
+        // var lightShadowsEnabled = frameState.shadowState.lightShadowsEnabled;
 
         var derivedCommands = command.derivedCommands;
 
@@ -1625,12 +1625,12 @@ import View from './View.js';
         // }
 
         if (command.pass === Pass.TRANSLUCENT && defined(oit) && oit.isSupported()) {
-            if (lightShadowsEnabled && command.receiveShadows) {
-                derivedCommands.oit = defined(derivedCommands.oit) ? derivedCommands.oit : {};
-                derivedCommands.oit.shadows = oit.createDerivedCommands(derivedCommands.shadows.receiveCommand, context, derivedCommands.oit.shadows);
-            } else {
+            // if (lightShadowsEnabled && command.receiveShadows) {
+            //     derivedCommands.oit = defined(derivedCommands.oit) ? derivedCommands.oit : {};
+            //     derivedCommands.oit.shadows = oit.createDerivedCommands(derivedCommands.shadows.receiveCommand, context, derivedCommands.oit.shadows);
+            // } else {
                 derivedCommands.oit = oit.createDerivedCommands(command, context, derivedCommands.oit);
-            }
+            // }
         }
     }
 
@@ -3114,10 +3114,10 @@ import View from './View.js';
             gd.executeDebugGlobeDepth(context, passState, useLogDepth);
         }
 
-        if (this.debugShowPickDepth && useGlobeDepthFramebuffer) {
-            var pd = this._picking.getPickDepth(this, this.debugShowDepthFrustum - 1);
-            pd.executeDebugPickDepth(context, passState, useLogDepth);
-        }
+        // if (this.debugShowPickDepth && useGlobeDepthFramebuffer) {
+        //     var pd = this._picking.getPickDepth(this, this.debugShowDepthFrustum - 1);
+        //     pd.executeDebugPickDepth(context, passState, useLogDepth);
+        // }
     };
 
     function callAfterRenderFunctions(scene) {
@@ -3185,7 +3185,7 @@ import View from './View.js';
             scene.globe.update(frameState);
         }
 
-        scene._picking.update();
+        // scene._picking.update();
         frameState.creditDisplay.update();
     }
 
