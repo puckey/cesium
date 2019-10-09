@@ -67,7 +67,7 @@ import SceneTransforms from './SceneTransforms.js';
 import ScreenSpaceCameraController from './ScreenSpaceCameraController.js';
 // import ShadowMap from './ShadowMap.js';
 import StencilConstants from './StencilConstants.js';
-import SunPostProcess from './SunPostProcess.js';
+// import SunPostProcess from './SunPostProcess.js';
 import TweenCollection from './TweenCollection.js';
 import View from './View.js';
 
@@ -199,7 +199,7 @@ import View from './View.js';
 
         this._shaderFrameCount = 0;
 
-        this._sunPostProcess = undefined;
+        // this._sunPostProcess = undefined;
 
         this._computeCommandList = [];
         this._overlayCommandList = [];
@@ -2165,8 +2165,8 @@ import View from './View.js';
                     } else {
                         framebuffer = environmentState.originalFramebuffer;
                     }
-                    scene._sunPostProcess.execute(context);
-                    scene._sunPostProcess.copy(context, framebuffer);
+                    // scene._sunPostProcess.execute(context);
+                    // scene._sunPostProcess.copy(context, framebuffer);
                     passState.framebuffer = framebuffer;
                 }
             }
@@ -2976,18 +2976,18 @@ import View from './View.js';
         environmentState.originalFramebuffer = passState.framebuffer;
 
         // Manage sun bloom post-processing effect.
-        if (defined(scene.sun) && scene.sunBloom !== scene._sunBloom) {
-            if (scene.sunBloom && !useWebVR) {
-                scene._sunPostProcess = new SunPostProcess();
-            } else if(defined(scene._sunPostProcess)){
-                scene._sunPostProcess = scene._sunPostProcess.destroy();
-            }
+        // if (defined(scene.sun) && scene.sunBloom !== scene._sunBloom) {
+        //     if (scene.sunBloom && !useWebVR) {
+        //         scene._sunPostProcess = new SunPostProcess();
+        //     } else if(defined(scene._sunPostProcess)){
+        //         scene._sunPostProcess = scene._sunPostProcess.destroy();
+        //     }
 
-            scene._sunBloom = scene.sunBloom;
-        } else if (!defined(scene.sun) && defined(scene._sunPostProcess)) {
-            scene._sunPostProcess = scene._sunPostProcess.destroy();
-            scene._sunBloom = false;
-        }
+        //     scene._sunBloom = scene.sunBloom;
+        // } else if (!defined(scene.sun) && defined(scene._sunPostProcess)) {
+        //     scene._sunPostProcess = scene._sunPostProcess.destroy();
+        //     scene._sunBloom = false;
+        // }
 
         // Clear the pass state framebuffer.
         var clear = scene._clearColorCommand;
