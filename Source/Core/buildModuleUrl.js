@@ -45,8 +45,8 @@ import Resource from './Resource.js';
         var baseUrlString;
         if (typeof CESIUM_BASE_URL !== 'undefined') {
             baseUrlString = CESIUM_BASE_URL;
-        } else if (typeof define === 'object' && defined(define.amd) && !define.amd.toUrlUndefined && defined(require.toUrl)) {
-            baseUrlString = getAbsoluteUri('..', buildModuleUrl('Core/buildModuleUrl.js'));
+        // } else if (typeof define === 'object' && defined(define.amd) && !define.amd.toUrlUndefined && defined(require.toUrl)) {
+        //     baseUrlString = getAbsoluteUri('..', buildModuleUrl('Core/buildModuleUrl.js'));
         // } else if (!FeatureDetection.isInternetExplorer() && /\/buildModuleUrl\.js$/.test(import.meta.url)) {
         //     baseUrlString = getAbsoluteUri('..', import.meta.url);
         } else {
@@ -71,10 +71,10 @@ import Resource from './Resource.js';
         return baseResource;
     }
 
-    function buildModuleUrlFromRequireToUrl(moduleID) {
-        //moduleID will be non-relative, so require it relative to this module, in Core.
-        return tryMakeAbsolute(require.toUrl('../' + moduleID));
-    }
+    // function buildModuleUrlFromRequireToUrl(moduleID) {
+    //     //moduleID will be non-relative, so require it relative to this module, in Core.
+    //     return tryMakeAbsolute(require.toUrl('../' + moduleID));
+    // }
 
     function buildModuleUrlFromBaseUrl(moduleID) {
         var resource = getCesiumBaseUrl().getDerivedResource({
@@ -95,11 +95,11 @@ import Resource from './Resource.js';
     function buildModuleUrl(moduleID) {
         if (!defined(implementation)) {
             //select implementation
-            if (typeof define === 'object' && defined(define.amd) && !define.amd.toUrlUndefined && defined(require.toUrl)) {
-                implementation = buildModuleUrlFromRequireToUrl;
-            } else {
+            // if (typeof define === 'object' && defined(define.amd) && !define.amd.toUrlUndefined && defined(require.toUrl)) {
+            //     implementation = buildModuleUrlFromRequireToUrl;
+            // } else {
                 implementation = buildModuleUrlFromBaseUrl;
-            }
+            // }
         }
 
         var url = implementation(moduleID);
