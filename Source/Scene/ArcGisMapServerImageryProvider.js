@@ -141,9 +141,6 @@ import ImageryProvider from './ImageryProvider.js';
             if (!defined(tileInfo)) {
                 that._useTiles = false;
             } else {
-                that._tileWidth = tileInfo.rows * window.devicePixelRatio;
-                that._tileHeight = tileInfo.cols * window.devicePixelRatio;
-
                 if (tileInfo.spatialReference.wkid === 102100 ||
                     tileInfo.spatialReference.wkid === 102113) {
                     that._tilingScheme = new WebMercatorTilingScheme({ ellipsoid : options.ellipsoid });
