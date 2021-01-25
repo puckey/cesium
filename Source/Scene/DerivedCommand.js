@@ -273,110 +273,110 @@ DerivedCommand.createLogDepthCommand = function (command, context, result) {
   return result;
 };
 
-function getPickShaderProgram(context, shaderProgram, pickId) {
-  var shader = context.shaderCache.getDerivedShaderProgram(
-    shaderProgram,
-    "pick"
-  );
-  if (!defined(shader)) {
-    var attributeLocations = shaderProgram._attributeLocations;
-    var fs = shaderProgram.fragmentShaderSource;
+// function getPickShaderProgram(context, shaderProgram, pickId) {
+//   var shader = context.shaderCache.getDerivedShaderProgram(
+//     shaderProgram,
+//     "pick"
+//   );
+//   if (!defined(shader)) {
+//     var attributeLocations = shaderProgram._attributeLocations;
+//     var fs = shaderProgram.fragmentShaderSource;
 
-    var sources = fs.sources;
-    var length = sources.length;
+//     var sources = fs.sources;
+//     var length = sources.length;
 
-    var newMain =
-      "void main() \n" +
-      "{ \n" +
-      "    czm_non_pick_main(); \n" +
-      "    if (gl_FragColor.a == 0.0) { \n" +
-      "        discard; \n" +
-      "    } \n" +
-      "    gl_FragColor = " +
-      pickId +
-      "; \n" +
-      "} \n";
-    var newSources = new Array(length + 1);
-    for (var i = 0; i < length; ++i) {
-      newSources[i] = ShaderSource.replaceMain(sources[i], "czm_non_pick_main");
-    }
-    newSources[length] = newMain;
-    fs = new ShaderSource({
-      sources: newSources,
-      defines: fs.defines,
-    });
-    shader = context.shaderCache.createDerivedShaderProgram(
-      shaderProgram,
-      "pick",
-      {
-        vertexShaderSource: shaderProgram.vertexShaderSource,
-        fragmentShaderSource: fs,
-        attributeLocations: attributeLocations,
-      }
-    );
-  }
+//     var newMain =
+//       "void main() \n" +
+//       "{ \n" +
+//       "    czm_non_pick_main(); \n" +
+//       "    if (gl_FragColor.a == 0.0) { \n" +
+//       "        discard; \n" +
+//       "    } \n" +
+//       "    gl_FragColor = " +
+//       pickId +
+//       "; \n" +
+//       "} \n";
+//     var newSources = new Array(length + 1);
+//     for (var i = 0; i < length; ++i) {
+//       newSources[i] = ShaderSource.replaceMain(sources[i], "czm_non_pick_main");
+//     }
+//     newSources[length] = newMain;
+//     fs = new ShaderSource({
+//       sources: newSources,
+//       defines: fs.defines,
+//     });
+//     shader = context.shaderCache.createDerivedShaderProgram(
+//       shaderProgram,
+//       "pick",
+//       {
+//         vertexShaderSource: shaderProgram.vertexShaderSource,
+//         fragmentShaderSource: fs,
+//         attributeLocations: attributeLocations,
+//       }
+//     );
+//   }
 
-  return shader;
-}
+//   return shader;
+// }
 
-function getPickRenderState(scene, renderState) {
-  var cache = scene.picking.pickRenderStateCache;
-  var pickState = cache[renderState.id];
-  if (!defined(pickState)) {
-    var rs = RenderState.getState(renderState);
-    rs.blending.enabled = false;
+// function getPickRenderState(scene, renderState) {
+//   var cache = scene.picking.pickRenderStateCache;
+//   var pickState = cache[renderState.id];
+//   if (!defined(pickState)) {
+//     var rs = RenderState.getState(renderState);
+//     rs.blending.enabled = false;
 
-    // Turns on depth writing for opaque and translucent passes
-    // Overlapping translucent geometry on the globe surface may exhibit z-fighting
-    // during the pick pass which may not match the rendered scene. Once
-    // terrain is on by default and ground primitives are used instead
-    // this will become less of a problem.
-    rs.depthMask = true;
+//     // Turns on depth writing for opaque and translucent passes
+//     // Overlapping translucent geometry on the globe surface may exhibit z-fighting
+//     // during the pick pass which may not match the rendered scene. Once
+//     // terrain is on by default and ground primitives are used instead
+//     // this will become less of a problem.
+//     rs.depthMask = true;
 
-    pickState = RenderState.fromCache(rs);
-    cache[renderState.id] = pickState;
-  }
+//     pickState = RenderState.fromCache(rs);
+//     cache[renderState.id] = pickState;
+//   }
 
-  return pickState;
-}
+//   return pickState;
+// }
 
-DerivedCommand.createPickDerivedCommand = function (
-  scene,
-  command,
-  context,
-  result
-) {
-  if (!defined(result)) {
-    result = {};
-  }
+// DerivedCommand.createPickDerivedCommand = function (
+//   scene,
+//   command,
+//   context,
+//   result
+// ) {
+//   if (!defined(result)) {
+//     result = {};
+//   }
 
-  var shader;
-  var renderState;
-  if (defined(result.pickCommand)) {
-    shader = result.pickCommand.shaderProgram;
-    renderState = result.pickCommand.renderState;
-  }
+//   var shader;
+//   var renderState;
+//   if (defined(result.pickCommand)) {
+//     shader = result.pickCommand.shaderProgram;
+//     renderState = result.pickCommand.renderState;
+//   }
 
-  result.pickCommand = DrawCommand.shallowClone(command, result.pickCommand);
+//   result.pickCommand = DrawCommand.shallowClone(command, result.pickCommand);
 
-  if (!defined(shader) || result.shaderProgramId !== command.shaderProgram.id) {
-    result.pickCommand.shaderProgram = getPickShaderProgram(
-      context,
-      command.shaderProgram,
-      command.pickId
-    );
-    result.pickCommand.renderState = getPickRenderState(
-      scene,
-      command.renderState
-    );
-    result.shaderProgramId = command.shaderProgram.id;
-  } else {
-    result.pickCommand.shaderProgram = shader;
-    result.pickCommand.renderState = renderState;
-  }
+//   if (!defined(shader) || result.shaderProgramId !== command.shaderProgram.id) {
+//     result.pickCommand.shaderProgram = getPickShaderProgram(
+//       context,
+//       command.shaderProgram,
+//       command.pickId
+//     );
+//     result.pickCommand.renderState = getPickRenderState(
+//       scene,
+//       command.renderState
+//     );
+//     result.shaderProgramId = command.shaderProgram.id;
+//   } else {
+//     result.pickCommand.shaderProgram = shader;
+//     result.pickCommand.renderState = renderState;
+//   }
 
-  return result;
-};
+//   return result;
+// };
 
 function getHdrShaderProgram(context, shaderProgram) {
   var shader = context.shaderCache.getDerivedShaderProgram(
