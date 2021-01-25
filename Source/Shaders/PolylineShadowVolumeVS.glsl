@@ -135,7 +135,7 @@ void main()
     //    { \| }
     //       o---------- polyline segment ---->
     //
-    float width = czm_batchTable_width(batchId) * czm_pixelRatio;
+    float width = czm_batchTable_width(batchId);
 #ifdef WIDTH_VARYING
     v_width = width;
 #endif
@@ -157,7 +157,7 @@ void main()
 #endif
 
     positionEC.xyz += width * normalEC;
-    gl_Position = czm_depthClampFarPlane(czm_projection * positionEC);
+    gl_Position = czm_depthClamp(czm_projection * positionEC);
 
 #ifdef ANGLE_VARYING
     // Approximate relative screen space direction of the line.
