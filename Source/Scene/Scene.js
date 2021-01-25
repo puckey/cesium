@@ -55,7 +55,7 @@ import JobScheduler from "./JobScheduler.js";
 import OctahedralProjectedCubeMap from "./OctahedralProjectedCubeMap.js";
 import PerformanceDisplay from "./PerformanceDisplay.js";
 import PerInstanceColorAppearance from "./PerInstanceColorAppearance.js";
-import Picking from "./Picking.js";
+// import Picking from "./Picking.js";
 // import PostProcessStageCollection from "./PostProcessStageCollection.js";
 import Primitive from "./Primitive.js";
 import PrimitiveCollection from "./PrimitiveCollection.js";
@@ -516,7 +516,7 @@ function Scene(options) {
    * @type Boolean
    * @default true
    */
-  this.useDepthPicking = true;
+  // this.useDepthPicking = true;
 
   /**
    * When <code>true</code>, enables picking translucent geometry using the depth buffer. Note that {@link Scene#useDepthPicking} must also be true for enabling this to work.
@@ -640,7 +640,7 @@ function Scene(options) {
 
     clearGlobeDepth: false,
     useDepthPlane: false,
-    renderTranslucentDepthForPick: false,
+    // renderTranslucentDepthForPick: false,
 
     originalFramebuffer: undefined,
     useGlobeDepthFramebuffer: false,
@@ -728,7 +728,7 @@ function Scene(options) {
    */
   this.preloadFlightCullingVolume = undefined;
 
-  this._picking = new Picking(this);
+  // this._picking = new Picking(this);
   this._defaultView = new View(this, camera, viewport);
   this._view = this._defaultView;
 
@@ -1040,11 +1040,11 @@ Object.defineProperties(Scene.prototype, {
    *
    * @private
    */
-  picking: {
-    get: function () {
-      return this._picking;
-    },
-  },
+  // picking: {
+  //   get: function () {
+  //     return this._picking;
+  //   },
+  // },
 
   /**
    * Gets the controller for camera input handling.
@@ -1679,11 +1679,11 @@ Scene.prototype.getCompressedTextureFormatSupported = function (format) {
 };
 
 function updateDerivedCommands(scene, command, shadowsDirty) {
-  var frameState = scene._frameState;
+  // var frameState = scene._frameState;
   var context = scene._context;
   var oit = scene._view.oit;
-  var lightShadowMaps = frameState.shadowState.lightShadowMaps;
-  var lightShadowsEnabled = frameState.shadowState.lightShadowsEnabled;
+  // var lightShadowMaps = frameState.shadowState.lightShadowMaps;
+  // var lightShadowsEnabled = frameState.shadowState.lightShadowsEnabled;
 
   var derivedCommands = command.derivedCommands;
 
@@ -1728,22 +1728,22 @@ function updateDerivedCommands(scene, command, shadowsDirty) {
   // }
 
   if (command.pass === Pass.TRANSLUCENT && defined(oit) && oit.isSupported()) {
-    if (lightShadowsEnabled && command.receiveShadows) {
-      derivedCommands.oit = defined(derivedCommands.oit)
-        ? derivedCommands.oit
-        : {};
-      derivedCommands.oit.shadows = oit.createDerivedCommands(
-        derivedCommands.shadows.receiveCommand,
-        context,
-        derivedCommands.oit.shadows
-      );
-    } else {
-      derivedCommands.oit = oit.createDerivedCommands(
-        command,
-        context,
-        derivedCommands.oit
-      );
-    }
+    // if (lightShadowsEnabled && command.receiveShadows) {
+    //   derivedCommands.oit = defined(derivedCommands.oit)
+    //     ? derivedCommands.oit
+    //     : {};
+    //   derivedCommands.oit.shadows = oit.createDerivedCommands(
+    //     derivedCommands.shadows.receiveCommand,
+    //     context,
+    //     derivedCommands.oit.shadows
+    //   );
+    // } else {
+    derivedCommands.oit = oit.createDerivedCommands(
+      command,
+      context,
+      derivedCommands.oit
+    );
+    // }
   }
 }
 
@@ -3695,7 +3695,7 @@ function prePassesUpdate(scene) {
     scene.globe.update(frameState);
   }
 
-  scene._picking.update();
+  // scene._picking.update();
   frameState.creditDisplay.update();
 }
 
