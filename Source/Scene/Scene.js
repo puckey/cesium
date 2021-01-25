@@ -44,14 +44,14 @@ import CreditDisplay from "./CreditDisplay.js";
 import DebugCameraPrimitive from "./DebugCameraPrimitive.js";
 import DepthPlane from "./DepthPlane.js";
 import DerivedCommand from "./DerivedCommand.js";
-import DeviceOrientationCameraController from "./DeviceOrientationCameraController.js";
+// import DeviceOrientationCameraController from "./DeviceOrientationCameraController.js";
 import Fog from "./Fog.js";
 import FrameState from "./FrameState.js";
 import GlobeDepth from "./GlobeDepth.js";
 import GlobeTranslucencyState from "./GlobeTranslucencyState.js";
 import InvertClassification from "./InvertClassification.js";
 import JobScheduler from "./JobScheduler.js";
-import MapMode2D from "./MapMode2D.js";
+// import MapMode2D from "./MapMode2D.js";
 import OctahedralProjectedCubeMap from "./OctahedralProjectedCubeMap.js";
 import PerformanceDisplay from "./PerformanceDisplay.js";
 import PerInstanceColorAppearance from "./PerInstanceColorAppearance.js";
@@ -597,13 +597,13 @@ function Scene(options) {
    * The focal length for use when with cardboard or WebVR.
    * @type {Number}
    */
-  this.focalLength = undefined;
+  // this.focalLength = undefined;
 
   /**
    * The eye separation distance in meters for use with cardboard or WebVR.
    * @type {Number}
    */
-  this.eyeSeparation = undefined;
+  // this.eyeSeparation = undefined;
 
   /**
    * Post processing effects applied to the final render.
@@ -620,7 +620,7 @@ function Scene(options) {
 
   this._screenSpaceCameraController = new ScreenSpaceCameraController(this);
   this._cameraUnderground = false;
-  this._mapMode2D = defaultValue(options.mapMode2D, MapMode2D.INFINITE_SCROLL);
+  // this._mapMode2D = defaultValue(options.mapMode2D, MapMode2D.INFINITE_SCROLL);
 
   // Keeps track of the state of a frame. FrameState is the state across
   // the primitives of the scene. This state is for internally keeping track
@@ -649,12 +649,12 @@ function Scene(options) {
     useInvertClassification: false,
     usePostProcess: false,
     usePostProcessSelected: false,
-    useWebVR: false,
+    // useWebVR: false,
   };
 
-  this._useWebVR = false;
-  this._cameraVR = undefined;
-  this._aspectRatioVR = undefined;
+  // this._useWebVR = false;
+  // this._cameraVR = undefined;
+  // this._aspectRatioVR = undefined;
 
   /**
    * When <code>true</code>, rendering a frame will only occur when needed as determined by changes within the scene.
@@ -1450,42 +1450,42 @@ Object.defineProperties(Scene.prototype, {
    * @type {Boolean}
    * @default false
    */
-  useWebVR: {
-    get: function () {
-      return this._useWebVR;
-    },
-    set: function (value) {
-      //>>includeStart('debug', pragmas.debug);
-      if (this.camera.frustum instanceof OrthographicFrustum) {
-        throw new DeveloperError(
-          "VR is unsupported with an orthographic projection."
-        );
-      }
-      //>>includeEnd('debug');
-      this._useWebVR = value;
-      if (this._useWebVR) {
-        this._frameState.creditDisplay.container.style.visibility = "hidden";
-        this._cameraVR = new Camera(this);
-        if (!defined(this._deviceOrientationCameraController)) {
-          this._deviceOrientationCameraController = new DeviceOrientationCameraController(
-            this
-          );
-        }
+  // useWebVR: {
+  //   get: function () {
+  //     return this._useWebVR;
+  //   },
+  //   set: function (value) {
+  //     //>>includeStart('debug', pragmas.debug);
+  //     if (this.camera.frustum instanceof OrthographicFrustum) {
+  //       throw new DeveloperError(
+  //         "VR is unsupported with an orthographic projection."
+  //       );
+  //     }
+  //     //>>includeEnd('debug');
+  //     this._useWebVR = value;
+  //     if (this._useWebVR) {
+  //       this._frameState.creditDisplay.container.style.visibility = "hidden";
+  //       this._cameraVR = new Camera(this);
+  //       if (!defined(this._deviceOrientationCameraController)) {
+  //         this._deviceOrientationCameraController = new DeviceOrientationCameraController(
+  //           this
+  //         );
+  //       }
 
-        this._aspectRatioVR = this.camera.frustum.aspectRatio;
-      } else {
-        this._frameState.creditDisplay.container.style.visibility = "visible";
-        this._cameraVR = undefined;
-        this._deviceOrientationCameraController =
-          this._deviceOrientationCameraController &&
-          !this._deviceOrientationCameraController.isDestroyed() &&
-          this._deviceOrientationCameraController.destroy();
+  //       this._aspectRatioVR = this.camera.frustum.aspectRatio;
+  //     } else {
+  //       this._frameState.creditDisplay.container.style.visibility = "visible";
+  //       this._cameraVR = undefined;
+  //       this._deviceOrientationCameraController =
+  //         this._deviceOrientationCameraController &&
+  //         !this._deviceOrientationCameraController.isDestroyed() &&
+  //         this._deviceOrientationCameraController.destroy();
 
-        this.camera.frustum.aspectRatio = this._aspectRatioVR;
-        this.camera.frustum.xOffset = 0.0;
-      }
-    },
-  },
+  //       this.camera.frustum.aspectRatio = this._aspectRatioVR;
+  //       this.camera.frustum.xOffset = 0.0;
+  //     }
+  //   },
+  // },
 
   /**
    * Determines if the 2D map is rotatable or can be scrolled infinitely in the horizontal direction.
@@ -1493,11 +1493,11 @@ Object.defineProperties(Scene.prototype, {
    * @type {MapMode2D}
    * @readonly
    */
-  mapMode2D: {
-    get: function () {
-      return this._mapMode2D;
-    },
-  },
+  // mapMode2D: {
+  //   get: function () {
+  //     return this._mapMode2D;
+  //   },
+  // },
 
   /**
    * Gets or sets the position of the Imagery splitter within the viewport.  Valid values are between 0.0 and 1.0.
@@ -2298,7 +2298,7 @@ function executeCommands(scene, passState) {
   var view = scene._view;
   var renderTranslucentDepthForPick =
     environmentState.renderTranslucentDepthForPick;
-  var useWebVR = environmentState.useWebVR;
+  // var useWebVR = environmentState.useWebVR;
 
   // Do not render environment primitives during a pick pass since they do not generate picking commands.
   if (!picking) {
@@ -2318,19 +2318,19 @@ function executeCommands(scene, passState) {
 
     if (environmentState.isSunVisible) {
       environmentState.sunDrawCommand.execute(context, passState);
-      if (scene.sunBloom && !useWebVR) {
-        var framebuffer;
-        if (environmentState.useGlobeDepthFramebuffer) {
-          framebuffer = view.globeDepth.framebuffer;
-        } else if (environmentState.usePostProcess) {
-          framebuffer = view.sceneFramebuffer.getFramebuffer();
-        } else {
-          framebuffer = environmentState.originalFramebuffer;
-        }
-        // scene._sunPostProcess.execute(context);
-        // scene._sunPostProcess.copy(context, framebuffer);
-        passState.framebuffer = framebuffer;
-      }
+      // if (scene.sunBloom && !useWebVR) {
+      //   var framebuffer;
+      //   if (environmentState.useGlobeDepthFramebuffer) {
+      //     framebuffer = view.globeDepth.framebuffer;
+      //   } else if (environmentState.usePostProcess) {
+      //     framebuffer = view.sceneFramebuffer.getFramebuffer();
+      //   } else {
+      //     framebuffer = environmentState.originalFramebuffer;
+      //   }
+      //   // scene._sunPostProcess.execute(context);
+      //   // scene._sunPostProcess.copy(context, framebuffer);
+      //   passState.framebuffer = framebuffer;
+      // }
     }
 
     // Moon can be seen through the atmosphere, since the sun is rendered after the atmosphere.
@@ -2879,256 +2879,256 @@ Scene.prototype.updateAndExecuteCommands = function (
   passState,
   backgroundColor
 ) {
-  var frameState = this._frameState;
-  var mode = frameState.mode;
-  var useWebVR = this._environmentState.useWebVR;
+  // var frameState = this._frameState;
+  // var mode = frameState.mode;
+  // var useWebVR = this._environmentState.useWebVR;
 
-  if (useWebVR) {
-    executeWebVRCommands(this, passState, backgroundColor);
-  } else if (
-    mode !== SceneMode.SCENE2D ||
-    this._mapMode2D === MapMode2D.ROTATE
-  ) {
-    executeCommandsInViewport(true, this, passState, backgroundColor);
-  } else {
-    updateAndClearFramebuffers(this, passState, backgroundColor);
-    execute2DViewportCommands(this, passState);
-  }
+  // if (useWebVR) {
+  //   executeWebVRCommands(this, passState, backgroundColor);
+  // } else if (
+  //   mode !== SceneMode.SCENE2D ||
+  //   this._mapMode2D === MapMode2D.ROTATE
+  // ) {
+  executeCommandsInViewport(true, this, passState, backgroundColor);
+  // } else {
+  //   updateAndClearFramebuffers(this, passState, backgroundColor);
+  //   execute2DViewportCommands(this, passState);
+  // }
 };
 
-function executeWebVRCommands(scene, passState, backgroundColor) {
-  var view = scene._view;
-  var camera = view.camera;
-  var environmentState = scene._environmentState;
-  var renderTranslucentDepthForPick =
-    environmentState.renderTranslucentDepthForPick;
+// function executeWebVRCommands(scene, passState, backgroundColor) {
+//   var view = scene._view;
+//   var camera = view.camera;
+//   var environmentState = scene._environmentState;
+//   var renderTranslucentDepthForPick =
+//     environmentState.renderTranslucentDepthForPick;
 
-  updateAndClearFramebuffers(scene, passState, backgroundColor);
+//   updateAndClearFramebuffers(scene, passState, backgroundColor);
 
-  if (!renderTranslucentDepthForPick) {
-    updateAndRenderPrimitives(scene);
-  }
+//   if (!renderTranslucentDepthForPick) {
+//     updateAndRenderPrimitives(scene);
+//   }
 
-  view.createPotentiallyVisibleSet(scene);
+//   view.createPotentiallyVisibleSet(scene);
 
-  if (!renderTranslucentDepthForPick) {
-    executeComputeCommands(scene);
-    // executeShadowMapCastCommands(scene);
-  }
+//   if (!renderTranslucentDepthForPick) {
+//     executeComputeCommands(scene);
+//     // executeShadowMapCastCommands(scene);
+//   }
 
-  // Based on Calculating Stereo pairs by Paul Bourke
-  // http://paulbourke.net/stereographics/stereorender/
-  var viewport = passState.viewport;
-  viewport.x = 0;
-  viewport.y = 0;
-  viewport.width = viewport.width * 0.5;
+//   // Based on Calculating Stereo pairs by Paul Bourke
+//   // http://paulbourke.net/stereographics/stereorender/
+//   var viewport = passState.viewport;
+//   viewport.x = 0;
+//   viewport.y = 0;
+//   viewport.width = viewport.width * 0.5;
 
-  var savedCamera = Camera.clone(camera, scene._cameraVR);
-  savedCamera.frustum = camera.frustum;
+//   var savedCamera = Camera.clone(camera, scene._cameraVR);
+//   savedCamera.frustum = camera.frustum;
 
-  var near = camera.frustum.near;
-  var fo = near * defaultValue(scene.focalLength, 5.0);
-  var eyeSeparation = defaultValue(scene.eyeSeparation, fo / 30.0);
-  var eyeTranslation = Cartesian3.multiplyByScalar(
-    savedCamera.right,
-    eyeSeparation * 0.5,
-    scratchEyeTranslation
-  );
+//   var near = camera.frustum.near;
+//   var fo = near * defaultValue(scene.focalLength, 5.0);
+//   var eyeSeparation = defaultValue(scene.eyeSeparation, fo / 30.0);
+//   var eyeTranslation = Cartesian3.multiplyByScalar(
+//     savedCamera.right,
+//     eyeSeparation * 0.5,
+//     scratchEyeTranslation
+//   );
 
-  camera.frustum.aspectRatio = viewport.width / viewport.height;
+//   camera.frustum.aspectRatio = viewport.width / viewport.height;
 
-  var offset = (0.5 * eyeSeparation * near) / fo;
+//   var offset = (0.5 * eyeSeparation * near) / fo;
 
-  Cartesian3.add(savedCamera.position, eyeTranslation, camera.position);
-  camera.frustum.xOffset = offset;
+//   Cartesian3.add(savedCamera.position, eyeTranslation, camera.position);
+//   camera.frustum.xOffset = offset;
 
-  executeCommands(scene, passState);
+//   executeCommands(scene, passState);
 
-  viewport.x = viewport.width;
+//   viewport.x = viewport.width;
 
-  Cartesian3.subtract(savedCamera.position, eyeTranslation, camera.position);
-  camera.frustum.xOffset = -offset;
+//   Cartesian3.subtract(savedCamera.position, eyeTranslation, camera.position);
+//   camera.frustum.xOffset = -offset;
 
-  executeCommands(scene, passState);
+//   executeCommands(scene, passState);
 
-  Camera.clone(savedCamera, camera);
-}
+//   Camera.clone(savedCamera, camera);
+// }
 
-var scratch2DViewportCartographic = new Cartographic(
-  Math.PI,
-  CesiumMath.PI_OVER_TWO
-);
-var scratch2DViewportMaxCoord = new Cartesian3();
-var scratch2DViewportSavedPosition = new Cartesian3();
-var scratch2DViewportTransform = new Matrix4();
-var scratch2DViewportCameraTransform = new Matrix4();
-var scratch2DViewportEyePoint = new Cartesian3();
-var scratch2DViewportWindowCoords = new Cartesian3();
-var scratch2DViewport = new BoundingRectangle();
+// var scratch2DViewportCartographic = new Cartographic(
+//   Math.PI,
+//   CesiumMath.PI_OVER_TWO
+// );
+// var scratch2DViewportMaxCoord = new Cartesian3();
+// var scratch2DViewportSavedPosition = new Cartesian3();
+// var scratch2DViewportTransform = new Matrix4();
+// var scratch2DViewportCameraTransform = new Matrix4();
+// var scratch2DViewportEyePoint = new Cartesian3();
+// var scratch2DViewportWindowCoords = new Cartesian3();
+// var scratch2DViewport = new BoundingRectangle();
 
-function execute2DViewportCommands(scene, passState) {
-  var context = scene.context;
-  var frameState = scene.frameState;
-  var camera = scene.camera;
+// function execute2DViewportCommands(scene, passState) {
+//   var context = scene.context;
+//   var frameState = scene.frameState;
+//   var camera = scene.camera;
 
-  var originalViewport = passState.viewport;
-  var viewport = BoundingRectangle.clone(originalViewport, scratch2DViewport);
-  passState.viewport = viewport;
+//   var originalViewport = passState.viewport;
+//   var viewport = BoundingRectangle.clone(originalViewport, scratch2DViewport);
+//   passState.viewport = viewport;
 
-  var maxCartographic = scratch2DViewportCartographic;
-  var maxCoord = scratch2DViewportMaxCoord;
+//   var maxCartographic = scratch2DViewportCartographic;
+//   var maxCoord = scratch2DViewportMaxCoord;
 
-  var projection = scene.mapProjection;
-  projection.project(maxCartographic, maxCoord);
+//   var projection = scene.mapProjection;
+//   projection.project(maxCartographic, maxCoord);
 
-  var position = Cartesian3.clone(
-    camera.position,
-    scratch2DViewportSavedPosition
-  );
-  var transform = Matrix4.clone(
-    camera.transform,
-    scratch2DViewportCameraTransform
-  );
-  var frustum = camera.frustum.clone();
+//   var position = Cartesian3.clone(
+//     camera.position,
+//     scratch2DViewportSavedPosition
+//   );
+//   var transform = Matrix4.clone(
+//     camera.transform,
+//     scratch2DViewportCameraTransform
+//   );
+//   var frustum = camera.frustum.clone();
 
-  camera._setTransform(Matrix4.IDENTITY);
+//   camera._setTransform(Matrix4.IDENTITY);
 
-  var viewportTransformation = Matrix4.computeViewportTransformation(
-    viewport,
-    0.0,
-    1.0,
-    scratch2DViewportTransform
-  );
-  var projectionMatrix = camera.frustum.projectionMatrix;
+//   var viewportTransformation = Matrix4.computeViewportTransformation(
+//     viewport,
+//     0.0,
+//     1.0,
+//     scratch2DViewportTransform
+//   );
+//   var projectionMatrix = camera.frustum.projectionMatrix;
 
-  var x = camera.positionWC.y;
-  var eyePoint = Cartesian3.fromElements(
-    CesiumMath.sign(x) * maxCoord.x - x,
-    0.0,
-    -camera.positionWC.x,
-    scratch2DViewportEyePoint
-  );
-  var windowCoordinates = Transforms.pointToGLWindowCoordinates(
-    projectionMatrix,
-    viewportTransformation,
-    eyePoint,
-    scratch2DViewportWindowCoords
-  );
+//   var x = camera.positionWC.y;
+//   var eyePoint = Cartesian3.fromElements(
+//     CesiumMath.sign(x) * maxCoord.x - x,
+//     0.0,
+//     -camera.positionWC.x,
+//     scratch2DViewportEyePoint
+//   );
+//   var windowCoordinates = Transforms.pointToGLWindowCoordinates(
+//     projectionMatrix,
+//     viewportTransformation,
+//     eyePoint,
+//     scratch2DViewportWindowCoords
+//   );
 
-  windowCoordinates.x = Math.floor(windowCoordinates.x);
+//   windowCoordinates.x = Math.floor(windowCoordinates.x);
 
-  var viewportX = viewport.x;
-  var viewportWidth = viewport.width;
+//   var viewportX = viewport.x;
+//   var viewportWidth = viewport.width;
 
-  if (
-    x === 0.0 ||
-    windowCoordinates.x <= viewportX ||
-    windowCoordinates.x >= viewportX + viewportWidth
-  ) {
-    executeCommandsInViewport(true, scene, passState);
-  } else if (
-    Math.abs(viewportX + viewportWidth * 0.5 - windowCoordinates.x) < 1.0
-  ) {
-    viewport.width = windowCoordinates.x - viewport.x;
+//   if (
+//     x === 0.0 ||
+//     windowCoordinates.x <= viewportX ||
+//     windowCoordinates.x >= viewportX + viewportWidth
+//   ) {
+//     executeCommandsInViewport(true, scene, passState);
+//   } else if (
+//     Math.abs(viewportX + viewportWidth * 0.5 - windowCoordinates.x) < 1.0
+//   ) {
+//     viewport.width = windowCoordinates.x - viewport.x;
 
-    camera.position.x *= CesiumMath.sign(camera.position.x);
+//     camera.position.x *= CesiumMath.sign(camera.position.x);
 
-    camera.frustum.right = 0.0;
+//     camera.frustum.right = 0.0;
 
-    frameState.cullingVolume = camera.frustum.computeCullingVolume(
-      camera.positionWC,
-      camera.directionWC,
-      camera.upWC
-    );
-    context.uniformState.update(frameState);
+//     frameState.cullingVolume = camera.frustum.computeCullingVolume(
+//       camera.positionWC,
+//       camera.directionWC,
+//       camera.upWC
+//     );
+//     context.uniformState.update(frameState);
 
-    executeCommandsInViewport(true, scene, passState);
+//     executeCommandsInViewport(true, scene, passState);
 
-    viewport.x = windowCoordinates.x;
+//     viewport.x = windowCoordinates.x;
 
-    camera.position.x = -camera.position.x;
+//     camera.position.x = -camera.position.x;
 
-    camera.frustum.right = -camera.frustum.left;
-    camera.frustum.left = 0.0;
+//     camera.frustum.right = -camera.frustum.left;
+//     camera.frustum.left = 0.0;
 
-    frameState.cullingVolume = camera.frustum.computeCullingVolume(
-      camera.positionWC,
-      camera.directionWC,
-      camera.upWC
-    );
-    context.uniformState.update(frameState);
+//     frameState.cullingVolume = camera.frustum.computeCullingVolume(
+//       camera.positionWC,
+//       camera.directionWC,
+//       camera.upWC
+//     );
+//     context.uniformState.update(frameState);
 
-    executeCommandsInViewport(false, scene, passState);
-  } else if (windowCoordinates.x > viewportX + viewportWidth * 0.5) {
-    viewport.width = windowCoordinates.x - viewportX;
+//     executeCommandsInViewport(false, scene, passState);
+//   } else if (windowCoordinates.x > viewportX + viewportWidth * 0.5) {
+//     viewport.width = windowCoordinates.x - viewportX;
 
-    var right = camera.frustum.right;
-    camera.frustum.right = maxCoord.x - x;
+//     var right = camera.frustum.right;
+//     camera.frustum.right = maxCoord.x - x;
 
-    frameState.cullingVolume = camera.frustum.computeCullingVolume(
-      camera.positionWC,
-      camera.directionWC,
-      camera.upWC
-    );
-    context.uniformState.update(frameState);
+//     frameState.cullingVolume = camera.frustum.computeCullingVolume(
+//       camera.positionWC,
+//       camera.directionWC,
+//       camera.upWC
+//     );
+//     context.uniformState.update(frameState);
 
-    executeCommandsInViewport(true, scene, passState);
+//     executeCommandsInViewport(true, scene, passState);
 
-    viewport.x = windowCoordinates.x;
-    viewport.width = viewportX + viewportWidth - windowCoordinates.x;
+//     viewport.x = windowCoordinates.x;
+//     viewport.width = viewportX + viewportWidth - windowCoordinates.x;
 
-    camera.position.x = -camera.position.x;
+//     camera.position.x = -camera.position.x;
 
-    camera.frustum.left = -camera.frustum.right;
-    camera.frustum.right = right - camera.frustum.right * 2.0;
+//     camera.frustum.left = -camera.frustum.right;
+//     camera.frustum.right = right - camera.frustum.right * 2.0;
 
-    frameState.cullingVolume = camera.frustum.computeCullingVolume(
-      camera.positionWC,
-      camera.directionWC,
-      camera.upWC
-    );
-    context.uniformState.update(frameState);
+//     frameState.cullingVolume = camera.frustum.computeCullingVolume(
+//       camera.positionWC,
+//       camera.directionWC,
+//       camera.upWC
+//     );
+//     context.uniformState.update(frameState);
 
-    executeCommandsInViewport(false, scene, passState);
-  } else {
-    viewport.x = windowCoordinates.x;
-    viewport.width = viewportX + viewportWidth - windowCoordinates.x;
+//     executeCommandsInViewport(false, scene, passState);
+//   } else {
+//     viewport.x = windowCoordinates.x;
+//     viewport.width = viewportX + viewportWidth - windowCoordinates.x;
 
-    var left = camera.frustum.left;
-    camera.frustum.left = -maxCoord.x - x;
+//     var left = camera.frustum.left;
+//     camera.frustum.left = -maxCoord.x - x;
 
-    frameState.cullingVolume = camera.frustum.computeCullingVolume(
-      camera.positionWC,
-      camera.directionWC,
-      camera.upWC
-    );
-    context.uniformState.update(frameState);
+//     frameState.cullingVolume = camera.frustum.computeCullingVolume(
+//       camera.positionWC,
+//       camera.directionWC,
+//       camera.upWC
+//     );
+//     context.uniformState.update(frameState);
 
-    executeCommandsInViewport(true, scene, passState);
+//     executeCommandsInViewport(true, scene, passState);
 
-    viewport.x = viewportX;
-    viewport.width = windowCoordinates.x - viewportX;
+//     viewport.x = viewportX;
+//     viewport.width = windowCoordinates.x - viewportX;
 
-    camera.position.x = -camera.position.x;
+//     camera.position.x = -camera.position.x;
 
-    camera.frustum.right = -camera.frustum.left;
-    camera.frustum.left = left - camera.frustum.left * 2.0;
+//     camera.frustum.right = -camera.frustum.left;
+//     camera.frustum.left = left - camera.frustum.left * 2.0;
 
-    frameState.cullingVolume = camera.frustum.computeCullingVolume(
-      camera.positionWC,
-      camera.directionWC,
-      camera.upWC
-    );
-    context.uniformState.update(frameState);
+//     frameState.cullingVolume = camera.frustum.computeCullingVolume(
+//       camera.positionWC,
+//       camera.directionWC,
+//       camera.upWC
+//     );
+//     context.uniformState.update(frameState);
 
-    executeCommandsInViewport(false, scene, passState);
-  }
+//     executeCommandsInViewport(false, scene, passState);
+//   }
 
-  camera._setTransform(transform);
-  Cartesian3.clone(position, camera.position);
-  camera.frustum = frustum.clone();
-  passState.viewport = originalViewport;
-}
+//   camera._setTransform(transform);
+//   Cartesian3.clone(position, camera.position);
+//   camera.frustum = frustum.clone();
+//   passState.viewport = originalViewport;
+// }
 
 function executeCommandsInViewport(
   firstViewport,
@@ -3247,8 +3247,8 @@ Scene.prototype.updateEnvironment = function () {
   }
 
   environmentState.renderTranslucentDepthForPick = false;
-  environmentState.useWebVR =
-    this._useWebVR && this.mode !== SceneMode.SCENE2D && !offscreenPass;
+  // environmentState.useWebVR =
+  //   this._useWebVR && this.mode !== SceneMode.SCENE2D && !offscreenPass;
 
   var occluder =
     frameState.mode === SceneMode.SCENE3D &&
