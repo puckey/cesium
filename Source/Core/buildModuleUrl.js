@@ -75,10 +75,10 @@ function getCesiumBaseUrl() {
   return baseResource;
 }
 
-function buildModuleUrlFromRequireToUrl(moduleID) {
-  //moduleID will be non-relative, so require it relative to this module, in Core.
-  return tryMakeAbsolute(require.toUrl("../" + moduleID));
-}
+// function buildModuleUrlFromRequireToUrl(moduleID) {
+//   //moduleID will be non-relative, so require it relative to this module, in Core.
+//   return tryMakeAbsolute(require.toUrl("../" + moduleID));
+// }
 
 function buildModuleUrlFromBaseUrl(moduleID) {
   var resource = getCesiumBaseUrl().getDerivedResource({
@@ -107,16 +107,16 @@ var implementation;
 function buildModuleUrl(relativeUrl) {
   if (!defined(implementation)) {
     //select implementation
-    if (
-      typeof define === "object" &&
-      defined(define.amd) &&
-      !define.amd.toUrlUndefined &&
-      defined(require.toUrl)
-    ) {
-      implementation = buildModuleUrlFromRequireToUrl;
-    } else {
-      implementation = buildModuleUrlFromBaseUrl;
-    }
+    // if (
+    //   typeof define === "object" &&
+    //   defined(define.amd) &&
+    //   !define.amd.toUrlUndefined &&
+    //   defined(require.toUrl)
+    // ) {
+    //   implementation = buildModuleUrlFromRequireToUrl;
+    // } else {
+    implementation = buildModuleUrlFromBaseUrl;
+    // }
   }
 
   var url = implementation(relativeUrl);
