@@ -63,7 +63,7 @@ import SceneMode from "./SceneMode.js";
 import SceneTransforms from "./SceneTransforms.js";
 import SceneTransitioner from "./SceneTransitioner.js";
 import ScreenSpaceCameraController from "./ScreenSpaceCameraController.js";
-import ShadowMap from "./ShadowMap.js";
+// import ShadowMap from "./ShadowMap.js";
 import StencilConstants from "./StencilConstants.js";
 import SunLight from "./SunLight.js";
 import SunPostProcess from "./SunPostProcess.js";
@@ -565,11 +565,11 @@ function Scene(options) {
    * The shadow map for the scene's light source. When enabled, models, primitives, and the globe may cast and receive shadows.
    * @type {ShadowMap}
    */
-  this.shadowMap = new ShadowMap({
-    context: context,
-    lightCamera: this._shadowMapCamera,
-    enabled: defaultValue(options.shadows, false),
-  });
+  // this.shadowMap = new ShadowMap({
+  //   context: context,
+  //   lightCamera: this._shadowMapCamera,
+  //   enabled: defaultValue(options.shadows, false),
+  // });
 
   /**
    * When <code>false</code>, 3D Tiles will render normally. When <code>true</code>, classified 3D Tile geometry will render normally and
@@ -1717,15 +1717,15 @@ function updateDerivedCommands(scene, command, shadowsDirty) {
     derivedCommands = command.derivedCommands;
   }
 
-  if (lightShadowsEnabled && command.receiveShadows) {
-    derivedCommands.shadows = ShadowMap.createReceiveDerivedCommand(
-      lightShadowMaps,
-      command,
-      shadowsDirty,
-      context,
-      derivedCommands.shadows
-    );
-  }
+  // if (lightShadowsEnabled && command.receiveShadows) {
+  //   derivedCommands.shadows = ShadowMap.createReceiveDerivedCommand(
+  //     lightShadowMaps,
+  //     command,
+  //     shadowsDirty,
+  //     context,
+  //     derivedCommands.shadows
+  //   );
+  // }
 
   if (command.pass === Pass.TRANSLUCENT && defined(oit) && oit.isSupported()) {
     if (lightShadowsEnabled && command.receiveShadows) {
@@ -1786,17 +1786,17 @@ Scene.prototype.updateDerivedCommands = function (command) {
   if (command.dirty) {
     command.dirty = false;
 
-    var shadowMaps = frameState.shadowState.shadowMaps;
-    var shadowsEnabled = frameState.shadowState.shadowsEnabled;
-    if (shadowsEnabled && command.castShadows) {
-      derivedCommands.shadows = ShadowMap.createCastDerivedCommand(
-        shadowMaps,
-        command,
-        shadowsDirty,
-        context,
-        derivedCommands.shadows
-      );
-    }
+    // var shadowMaps = frameState.shadowState.shadowMaps;
+    // var shadowsEnabled = frameState.shadowState.shadowsEnabled;
+    // if (shadowsEnabled && command.castShadows) {
+    //   derivedCommands.shadows = ShadowMap.createCastDerivedCommand(
+    //     shadowMaps,
+    //     command,
+    //     shadowsDirty,
+    //     context,
+    //     derivedCommands.shadows
+    //   );
+    // }
 
     if (hasLogDepthDerivedCommands || needsLogDepthDerivedCommands) {
       derivedCommands.logDepth = DerivedCommand.createLogDepthCommand(
@@ -1886,7 +1886,7 @@ Scene.prototype.updateFrameState = function () {
 
   var frameState = this._frameState;
   frameState.commandList.length = 0;
-  frameState.shadowMaps.length = 0;
+  // frameState.shadowMaps.length = 0;
   frameState.brdfLutGenerator = this._brdfLutGenerator;
   frameState.environmentMap = this.skyBox && this.skyBox._cubeMap;
   frameState.mode = this._mode;
@@ -2774,101 +2774,101 @@ function executeOverlayCommands(scene, passState) {
   }
 }
 
-function insertShadowCastCommands(scene, commandList, shadowMap) {
-  var shadowVolume = shadowMap.shadowMapCullingVolume;
-  var isPointLight = shadowMap.isPointLight;
-  var passes = shadowMap.passes;
-  var numberOfPasses = passes.length;
+// function insertShadowCastCommands(scene, commandList, shadowMap) {
+//   var shadowVolume = shadowMap.shadowMapCullingVolume;
+//   var isPointLight = shadowMap.isPointLight;
+//   var passes = shadowMap.passes;
+//   var numberOfPasses = passes.length;
 
-  var length = commandList.length;
-  for (var i = 0; i < length; ++i) {
-    var command = commandList[i];
-    scene.updateDerivedCommands(command);
+//   var length = commandList.length;
+//   for (var i = 0; i < length; ++i) {
+//     var command = commandList[i];
+//     scene.updateDerivedCommands(command);
 
-    if (
-      command.castShadows &&
-      (command.pass === Pass.GLOBE ||
-        command.pass === Pass.CESIUM_3D_TILE ||
-        command.pass === Pass.OPAQUE ||
-        command.pass === Pass.TRANSLUCENT)
-    ) {
-      if (scene.isVisible(command, shadowVolume)) {
-        if (isPointLight) {
-          for (var k = 0; k < numberOfPasses; ++k) {
-            passes[k].commandList.push(command);
-          }
-        } else if (numberOfPasses === 1) {
-          passes[0].commandList.push(command);
-        } else {
-          var wasVisible = false;
-          // Loop over cascades from largest to smallest
-          for (var j = numberOfPasses - 1; j >= 0; --j) {
-            var cascadeVolume = passes[j].cullingVolume;
-            if (scene.isVisible(command, cascadeVolume)) {
-              passes[j].commandList.push(command);
-              wasVisible = true;
-            } else if (wasVisible) {
-              // If it was visible in the previous cascade but now isn't
-              // then there is no need to check any more cascades
-              break;
-            }
-          }
-        }
-      }
-    }
-  }
-}
+//     if (
+//       command.castShadows &&
+//       (command.pass === Pass.GLOBE ||
+//         command.pass === Pass.CESIUM_3D_TILE ||
+//         command.pass === Pass.OPAQUE ||
+//         command.pass === Pass.TRANSLUCENT)
+//     ) {
+//       if (scene.isVisible(command, shadowVolume)) {
+//         if (isPointLight) {
+//           for (var k = 0; k < numberOfPasses; ++k) {
+//             passes[k].commandList.push(command);
+//           }
+//         } else if (numberOfPasses === 1) {
+//           passes[0].commandList.push(command);
+//         } else {
+//           var wasVisible = false;
+//           // Loop over cascades from largest to smallest
+//           for (var j = numberOfPasses - 1; j >= 0; --j) {
+//             var cascadeVolume = passes[j].cullingVolume;
+//             if (scene.isVisible(command, cascadeVolume)) {
+//               passes[j].commandList.push(command);
+//               wasVisible = true;
+//             } else if (wasVisible) {
+//               // If it was visible in the previous cascade but now isn't
+//               // then there is no need to check any more cascades
+//               break;
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
 
-function executeShadowMapCastCommands(scene) {
-  var frameState = scene.frameState;
-  var shadowMaps = frameState.shadowState.shadowMaps;
-  var shadowMapLength = shadowMaps.length;
+// function executeShadowMapCastCommands(scene) {
+//   var frameState = scene.frameState;
+//   var shadowMaps = frameState.shadowState.shadowMaps;
+//   var shadowMapLength = shadowMaps.length;
 
-  if (!frameState.shadowState.shadowsEnabled) {
-    return;
-  }
+//   if (!frameState.shadowState.shadowsEnabled) {
+//     return;
+//   }
 
-  var context = scene.context;
-  var uniformState = context.uniformState;
+//   var context = scene.context;
+//   var uniformState = context.uniformState;
 
-  for (var i = 0; i < shadowMapLength; ++i) {
-    var shadowMap = shadowMaps[i];
-    if (shadowMap.outOfView) {
-      continue;
-    }
+//   for (var i = 0; i < shadowMapLength; ++i) {
+//     var shadowMap = shadowMaps[i];
+//     if (shadowMap.outOfView) {
+//       continue;
+//     }
 
-    // Reset the command lists
-    var j;
-    var passes = shadowMap.passes;
-    var numberOfPasses = passes.length;
-    for (j = 0; j < numberOfPasses; ++j) {
-      passes[j].commandList.length = 0;
-    }
+//     // Reset the command lists
+//     var j;
+//     var passes = shadowMap.passes;
+//     var numberOfPasses = passes.length;
+//     for (j = 0; j < numberOfPasses; ++j) {
+//       passes[j].commandList.length = 0;
+//     }
 
-    // Insert the primitive/model commands into the command lists
-    var sceneCommands = scene.frameState.commandList;
-    insertShadowCastCommands(scene, sceneCommands, shadowMap);
+//     // Insert the primitive/model commands into the command lists
+//     var sceneCommands = scene.frameState.commandList;
+//     insertShadowCastCommands(scene, sceneCommands, shadowMap);
 
-    for (j = 0; j < numberOfPasses; ++j) {
-      var pass = shadowMap.passes[j];
-      uniformState.updateCamera(pass.camera);
-      shadowMap.updatePass(context, j);
-      var numberOfCommands = pass.commandList.length;
-      for (var k = 0; k < numberOfCommands; ++k) {
-        var command = pass.commandList[k];
-        // Set the correct pass before rendering into the shadow map because some shaders
-        // conditionally render based on whether the pass is translucent or opaque.
-        uniformState.updatePass(command.pass);
-        executeCommand(
-          command.derivedCommands.shadows.castCommands[i],
-          scene,
-          context,
-          pass.passState
-        );
-      }
-    }
-  }
-}
+//     for (j = 0; j < numberOfPasses; ++j) {
+//       var pass = shadowMap.passes[j];
+//       uniformState.updateCamera(pass.camera);
+//       shadowMap.updatePass(context, j);
+//       var numberOfCommands = pass.commandList.length;
+//       for (var k = 0; k < numberOfCommands; ++k) {
+//         var command = pass.commandList[k];
+//         // Set the correct pass before rendering into the shadow map because some shaders
+//         // conditionally render based on whether the pass is translucent or opaque.
+//         uniformState.updatePass(command.pass);
+//         executeCommand(
+//           command.derivedCommands.shadows.castCommands[i],
+//           scene,
+//           context,
+//           pass.passState
+//         );
+//       }
+//     }
+//   }
+// }
 
 var scratchEyeTranslation = new Cartesian3();
 
@@ -2913,7 +2913,7 @@ function executeWebVRCommands(scene, passState, backgroundColor) {
 
   if (!renderTranslucentDepthForPick) {
     executeComputeCommands(scene);
-    executeShadowMapCastCommands(scene);
+    // executeShadowMapCastCommands(scene);
   }
 
   // Based on Calculating Stereo pairs by Paul Bourke
@@ -3157,7 +3157,7 @@ function executeCommandsInViewport(
     }
     if (!renderTranslucentDepthForPick) {
       executeComputeCommands(scene);
-      executeShadowMapCastCommands(scene);
+      // executeShadowMapCastCommands(scene);
     }
   }
 
@@ -3318,54 +3318,54 @@ function updateDebugFrustumPlanes(scene) {
   }
 }
 
-function updateShadowMaps(scene) {
-  var frameState = scene._frameState;
-  var shadowMaps = frameState.shadowMaps;
-  var length = shadowMaps.length;
+// function updateShadowMaps(scene) {
+//   var frameState = scene._frameState;
+//   var shadowMaps = frameState.shadowMaps;
+//   var length = shadowMaps.length;
 
-  var shadowsEnabled =
-    length > 0 && !frameState.passes.pick && scene.mode === SceneMode.SCENE3D;
-  if (shadowsEnabled !== frameState.shadowState.shadowsEnabled) {
-    // Update derived commands when shadowsEnabled changes
-    ++frameState.shadowState.lastDirtyTime;
-    frameState.shadowState.shadowsEnabled = shadowsEnabled;
-  }
+//   var shadowsEnabled =
+//     length > 0 && !frameState.passes.pick && scene.mode === SceneMode.SCENE3D;
+//   if (shadowsEnabled !== frameState.shadowState.shadowsEnabled) {
+//     // Update derived commands when shadowsEnabled changes
+//     ++frameState.shadowState.lastDirtyTime;
+//     frameState.shadowState.shadowsEnabled = shadowsEnabled;
+//   }
 
-  frameState.shadowState.lightShadowsEnabled = false;
+//   frameState.shadowState.lightShadowsEnabled = false;
 
-  if (!shadowsEnabled) {
-    return;
-  }
+//   if (!shadowsEnabled) {
+//     return;
+//   }
 
-  // Check if the shadow maps are different than the shadow maps last frame.
-  // If so, the derived commands need to be updated.
-  for (var j = 0; j < length; ++j) {
-    if (shadowMaps[j] !== frameState.shadowState.shadowMaps[j]) {
-      ++frameState.shadowState.lastDirtyTime;
-      break;
-    }
-  }
+//   // Check if the shadow maps are different than the shadow maps last frame.
+//   // If so, the derived commands need to be updated.
+//   for (var j = 0; j < length; ++j) {
+//     if (shadowMaps[j] !== frameState.shadowState.shadowMaps[j]) {
+//       ++frameState.shadowState.lastDirtyTime;
+//       break;
+//     }
+//   }
 
-  frameState.shadowState.shadowMaps.length = 0;
-  frameState.shadowState.lightShadowMaps.length = 0;
+//   frameState.shadowState.shadowMaps.length = 0;
+//   frameState.shadowState.lightShadowMaps.length = 0;
 
-  for (var i = 0; i < length; ++i) {
-    var shadowMap = shadowMaps[i];
-    shadowMap.update(frameState);
+//   for (var i = 0; i < length; ++i) {
+//     var shadowMap = shadowMaps[i];
+//     shadowMap.update(frameState);
 
-    frameState.shadowState.shadowMaps.push(shadowMap);
+//     frameState.shadowState.shadowMaps.push(shadowMap);
 
-    if (shadowMap.fromLightSource) {
-      frameState.shadowState.lightShadowMaps.push(shadowMap);
-      frameState.shadowState.lightShadowsEnabled = true;
-    }
+//     if (shadowMap.fromLightSource) {
+//       frameState.shadowState.lightShadowMaps.push(shadowMap);
+//       frameState.shadowState.lightShadowsEnabled = true;
+//     }
 
-    if (shadowMap.dirty) {
-      ++frameState.shadowState.lastDirtyTime;
-      shadowMap.dirty = false;
-    }
-  }
-}
+//     if (shadowMap.dirty) {
+//       ++frameState.shadowState.lastDirtyTime;
+//       shadowMap.dirty = false;
+//     }
+//   }
+// }
 
 function updateAndRenderPrimitives(scene) {
   var frameState = scene._frameState;
@@ -3374,7 +3374,7 @@ function updateAndRenderPrimitives(scene) {
   scene._primitives.update(frameState);
 
   updateDebugFrustumPlanes(scene);
-  updateShadowMaps(scene);
+  // updateShadowMaps(scene);
 
   if (scene._globe) {
     scene._globe.render(frameState);
@@ -3734,16 +3734,16 @@ function render(scene) {
 
   us.update(frameState);
 
-  var shadowMap = scene.shadowMap;
-  if (defined(shadowMap) && shadowMap.enabled) {
-    if (!defined(scene.light) || scene.light instanceof SunLight) {
-      // Negate the sun direction so that it is from the Sun, not to the Sun
-      Cartesian3.negate(us.sunDirectionWC, scene._shadowMapCamera.direction);
-    } else {
-      Cartesian3.clone(scene.light.direction, scene._shadowMapCamera.direction);
-    }
-    frameState.shadowMaps.push(shadowMap);
-  }
+  // var shadowMap = scene.shadowMap;
+  // if (defined(shadowMap) && shadowMap.enabled) {
+  //   if (!defined(scene.light) || scene.light instanceof SunLight) {
+  //     // Negate the sun direction so that it is from the Sun, not to the Sun
+  //     Cartesian3.negate(us.sunDirectionWC, scene._shadowMapCamera.direction);
+  //   } else {
+  //     Cartesian3.clone(scene.light.direction, scene._shadowMapCamera.direction);
+  //   }
+  //   frameState.shadowMaps.push(shadowMap);
+  // }
 
   scene._computeCommandList.length = 0;
   scene._overlayCommandList.length = 0;
