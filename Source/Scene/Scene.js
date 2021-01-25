@@ -61,7 +61,7 @@ import Primitive from "./Primitive.js";
 import PrimitiveCollection from "./PrimitiveCollection.js";
 import SceneMode from "./SceneMode.js";
 import SceneTransforms from "./SceneTransforms.js";
-import SceneTransitioner from "./SceneTransitioner.js";
+// import SceneTransitioner from "./SceneTransitioner.js";
 import ScreenSpaceCameraController from "./ScreenSpaceCameraController.js";
 // import ShadowMap from "./ShadowMap.js";
 import StencilConstants from "./StencilConstants.js";
@@ -250,7 +250,7 @@ function Scene(options) {
 
   this._depthOnlyRenderStateCache = {};
 
-  this._transitioner = new SceneTransitioner(this);
+  // this._transitioner = new SceneTransitioner(this);
 
   this._preUpdate = new Event();
   this._postUpdate = new Event();
@@ -3719,7 +3719,7 @@ function render(scene) {
   scene.updateFrameState();
   frameState.passes.render = true;
   frameState.passes.postProcess = scene.postProcessStages.hasSelected;
-  frameState.tilesetPassState = renderTilesetPassState;
+  // frameState.tilesetPassState = renderTilesetPassState;
 
   var backgroundColor = defaultValue(scene.backgroundColor, Color.BLACK);
   if (scene._hdr) {
@@ -4350,57 +4350,57 @@ Scene.prototype.cartesianToCanvasCoordinates = function (position, result) {
 /**
  * Instantly completes an active transition.
  */
-Scene.prototype.completeMorph = function () {
-  this._transitioner.completeMorph();
-};
+// Scene.prototype.completeMorph = function () {
+//   this._transitioner.completeMorph();
+// };
 
 /**
  * Asynchronously transitions the scene to 2D.
  * @param {Number} [duration=2.0] The amount of time, in seconds, for transition animations to complete.
  */
-Scene.prototype.morphTo2D = function (duration) {
-  var ellipsoid;
-  var globe = this.globe;
-  if (defined(globe)) {
-    ellipsoid = globe.ellipsoid;
-  } else {
-    ellipsoid = this.mapProjection.ellipsoid;
-  }
-  duration = defaultValue(duration, 2.0);
-  this._transitioner.morphTo2D(duration, ellipsoid);
-};
+// Scene.prototype.morphTo2D = function (duration) {
+//   var ellipsoid;
+//   var globe = this.globe;
+//   if (defined(globe)) {
+//     ellipsoid = globe.ellipsoid;
+//   } else {
+//     ellipsoid = this.mapProjection.ellipsoid;
+//   }
+//   duration = defaultValue(duration, 2.0);
+//   this._transitioner.morphTo2D(duration, ellipsoid);
+// };
 
 /**
  * Asynchronously transitions the scene to Columbus View.
  * @param {Number} [duration=2.0] The amount of time, in seconds, for transition animations to complete.
  */
-Scene.prototype.morphToColumbusView = function (duration) {
-  var ellipsoid;
-  var globe = this.globe;
-  if (defined(globe)) {
-    ellipsoid = globe.ellipsoid;
-  } else {
-    ellipsoid = this.mapProjection.ellipsoid;
-  }
-  duration = defaultValue(duration, 2.0);
-  this._transitioner.morphToColumbusView(duration, ellipsoid);
-};
+// Scene.prototype.morphToColumbusView = function (duration) {
+//   var ellipsoid;
+//   var globe = this.globe;
+//   if (defined(globe)) {
+//     ellipsoid = globe.ellipsoid;
+//   } else {
+//     ellipsoid = this.mapProjection.ellipsoid;
+//   }
+//   duration = defaultValue(duration, 2.0);
+//   this._transitioner.morphToColumbusView(duration, ellipsoid);
+// };
 
 /**
  * Asynchronously transitions the scene to 3D.
  * @param {Number} [duration=2.0] The amount of time, in seconds, for transition animations to complete.
  */
-Scene.prototype.morphTo3D = function (duration) {
-  var ellipsoid;
-  var globe = this.globe;
-  if (defined(globe)) {
-    ellipsoid = globe.ellipsoid;
-  } else {
-    ellipsoid = this.mapProjection.ellipsoid;
-  }
-  duration = defaultValue(duration, 2.0);
-  this._transitioner.morphTo3D(duration, ellipsoid);
-};
+// Scene.prototype.morphTo3D = function (duration) {
+//   var ellipsoid;
+//   var globe = this.globe;
+//   if (defined(globe)) {
+//     ellipsoid = globe.ellipsoid;
+//   } else {
+//     ellipsoid = this.mapProjection.ellipsoid;
+//   }
+//   duration = defaultValue(duration, 2.0);
+//   this._transitioner.morphTo3D(duration, ellipsoid);
+// };
 
 /**
  * Returns true if this object was destroyed; otherwise, false.
@@ -4452,7 +4452,7 @@ Scene.prototype.destroy = function () {
   this.sun = this.sun && this.sun.destroy();
   this._sunPostProcess = this._sunPostProcess && this._sunPostProcess.destroy();
   this._depthPlane = this._depthPlane && this._depthPlane.destroy();
-  this._transitioner = this._transitioner && this._transitioner.destroy();
+  // this._transitioner = this._transitioner && this._transitioner.destroy();
   this._debugFrustumPlanes =
     this._debugFrustumPlanes && this._debugFrustumPlanes.destroy();
   this._brdfLutGenerator =
