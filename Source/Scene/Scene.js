@@ -38,8 +38,8 @@ import Pass from "../Renderer/Pass.js";
 import RenderState from "../Renderer/RenderState.js";
 import BrdfLutGenerator from "./BrdfLutGenerator.js";
 import Camera from "./Camera.js";
-import Cesium3DTilePass from "./Cesium3DTilePass.js";
-import Cesium3DTilePassState from "./Cesium3DTilePassState.js";
+// import Cesium3DTilePass from "./Cesium3DTilePass.js";
+// import Cesium3DTilePassState from "./Cesium3DTilePassState.js";
 import CreditDisplay from "./CreditDisplay.js";
 import DebugCameraPrimitive from "./DebugCameraPrimitive.js";
 import DepthPlane from "./DepthPlane.js";
@@ -1816,21 +1816,21 @@ Scene.prototype.updateDerivedCommands = function (command) {
   }
 };
 
-var renderTilesetPassState = new Cesium3DTilePassState({
-  pass: Cesium3DTilePass.RENDER,
-});
+// var renderTilesetPassState = new Cesium3DTilePassState({
+//   pass: Cesium3DTilePass.RENDER,
+// });
 
-var preloadTilesetPassState = new Cesium3DTilePassState({
-  pass: Cesium3DTilePass.PRELOAD,
-});
+// var preloadTilesetPassState = new Cesium3DTilePassState({
+//   pass: Cesium3DTilePass.PRELOAD,
+// });
 
-var preloadFlightTilesetPassState = new Cesium3DTilePassState({
-  pass: Cesium3DTilePass.PRELOAD_FLIGHT,
-});
+// var preloadFlightTilesetPassState = new Cesium3DTilePassState({
+//   pass: Cesium3DTilePass.PRELOAD_FLIGHT,
+// });
 
-var requestRenderModeDeferCheckPassState = new Cesium3DTilePassState({
-  pass: Cesium3DTilePass.REQUEST_RENDER_MODE_DEFER_CHECK,
-});
+// var requestRenderModeDeferCheckPassState = new Cesium3DTilePassState({
+//   pass: Cesium3DTilePass.REQUEST_RENDER_MODE_DEFER_CHECK,
+// });
 
 var scratchOccluderBoundingSphere = new BoundingSphere();
 var scratchOccluder;
