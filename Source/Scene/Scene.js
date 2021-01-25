@@ -3794,9 +3794,9 @@ function tryAndCatchError(scene, functionToExecute) {
   }
 }
 
-function updateMostDetailedRayPicks(scene) {
-  return scene._picking.updateMostDetailedRayPicks(scene);
-}
+// function updateMostDetailedRayPicks(scene) {
+//   return scene._picking.updateMostDetailedRayPicks(scene);
+// }
 
 /**
  * Update and render the scene. It is usually not necessary to call this function
@@ -3860,14 +3860,14 @@ Scene.prototype.render = function (time) {
    * Passes update. Add any passes here
    *
    */
-  if (this.primitives.show) {
-    tryAndCatchError(this, updateMostDetailedRayPicks);
-    tryAndCatchError(this, updatePreloadPass);
-    tryAndCatchError(this, updatePreloadFlightPass);
-    if (!shouldRender) {
-      tryAndCatchError(this, updateRequestRenderModeDeferCheckPass);
-    }
-  }
+  // if (this.primitives.show) {
+  // tryAndCatchError(this, updateMostDetailedRayPicks);
+  // tryAndCatchError(this, updatePreloadPass);
+  // tryAndCatchError(this, updatePreloadFlightPass);
+  // if (!shouldRender) {
+  //   tryAndCatchError(this, updateRequestRenderModeDeferCheckPass);
+  // }
+  // }
 
   this._postUpdate.raiseEvent(this, time);
 
@@ -4026,37 +4026,37 @@ Scene.prototype.drillPick = function (windowPosition, limit, width, height) {
   return this._picking.drillPick(this, windowPosition, limit, width, height);
 };
 
-function updatePreloadPass(scene) {
-  var frameState = scene._frameState;
-  preloadTilesetPassState.camera = frameState.camera;
-  preloadTilesetPassState.cullingVolume = frameState.cullingVolume;
+// function updatePreloadPass(scene) {
+//   var frameState = scene._frameState;
+//   preloadTilesetPassState.camera = frameState.camera;
+//   preloadTilesetPassState.cullingVolume = frameState.cullingVolume;
 
-  var primitives = scene.primitives;
-  primitives.updateForPass(frameState, preloadTilesetPassState);
-}
+//   var primitives = scene.primitives;
+//   primitives.updateForPass(frameState, preloadTilesetPassState);
+// }
 
-function updatePreloadFlightPass(scene) {
-  var frameState = scene._frameState;
-  var camera = frameState.camera;
-  if (!camera.canPreloadFlight()) {
-    return;
-  }
+// function updatePreloadFlightPass(scene) {
+//   var frameState = scene._frameState;
+//   var camera = frameState.camera;
+//   if (!camera.canPreloadFlight()) {
+//     return;
+//   }
 
-  preloadFlightTilesetPassState.camera = scene.preloadFlightCamera;
-  preloadFlightTilesetPassState.cullingVolume =
-    scene.preloadFlightCullingVolume;
+//   preloadFlightTilesetPassState.camera = scene.preloadFlightCamera;
+//   preloadFlightTilesetPassState.cullingVolume =
+//     scene.preloadFlightCullingVolume;
 
-  var primitives = scene.primitives;
-  primitives.updateForPass(frameState, preloadFlightTilesetPassState);
-}
+//   var primitives = scene.primitives;
+//   primitives.updateForPass(frameState, preloadFlightTilesetPassState);
+// }
 
-function updateRequestRenderModeDeferCheckPass(scene) {
-  // Check if any ignored requests are ready to go (to wake rendering up again)
-  scene.primitives.updateForPass(
-    scene._frameState,
-    requestRenderModeDeferCheckPassState
-  );
-}
+// function updateRequestRenderModeDeferCheckPass(scene) {
+//   // Check if any ignored requests are ready to go (to wake rendering up again)
+//   scene.primitives.updateForPass(
+//     scene._frameState,
+//     requestRenderModeDeferCheckPassState
+//   );
+// }
 
 /**
  * Returns an object containing the first object intersected by the ray and the position of intersection,
