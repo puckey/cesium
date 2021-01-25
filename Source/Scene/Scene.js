@@ -56,7 +56,7 @@ import OctahedralProjectedCubeMap from "./OctahedralProjectedCubeMap.js";
 import PerformanceDisplay from "./PerformanceDisplay.js";
 import PerInstanceColorAppearance from "./PerInstanceColorAppearance.js";
 import Picking from "./Picking.js";
-import PostProcessStageCollection from "./PostProcessStageCollection.js";
+// import PostProcessStageCollection from "./PostProcessStageCollection.js";
 import Primitive from "./Primitive.js";
 import PrimitiveCollection from "./PrimitiveCollection.js";
 import SceneMode from "./SceneMode.js";
@@ -609,7 +609,7 @@ function Scene(options) {
    * Post processing effects applied to the final render.
    * @type {PostProcessStageCollection}
    */
-  this.postProcessStages = new PostProcessStageCollection();
+  // this.postProcessStages = new PostProcessStageCollection();
 
   this._brdfLutGenerator = new BrdfLutGenerator();
 
@@ -3439,35 +3439,37 @@ function updateAndClearFramebuffers(scene, passState, clearColor) {
     environmentState.useOIT = oit.isSupported();
   }
 
-  var postProcess = scene.postProcessStages;
-  var usePostProcess = (environmentState.usePostProcess =
-    !picking &&
-    (scene._hdr ||
-      postProcess.length > 0 ||
-      postProcess.ambientOcclusion.enabled ||
-      postProcess.fxaa.enabled ||
-      postProcess.bloom.enabled));
-  environmentState.usePostProcessSelected = false;
-  if (usePostProcess) {
-    view.sceneFramebuffer.update(context, view.viewport, scene._hdr);
-    view.sceneFramebuffer.clear(context, passState, clearColor);
+  // var postProcess = scene.postProcessStages;
+  // var usePostProcess = (environmentState.usePostProcess =
+  //   !picking &&
+  //   (scene._hdr ||
+  //     postProcess.length > 0 ||
+  //     postProcess.ambientOcclusion.enabled ||
+  //     postProcess.fxaa.enabled ||
+  //     postProcess.bloom.enabled));
+  // environmentState.usePostProcessSelected = false;
+  // if (usePostProcess) {
+  //   view.sceneFramebuffer.update(context, view.viewport, scene._hdr);
+  //   view.sceneFramebuffer.clear(context, passState, clearColor);
 
-    postProcess.update(context, frameState.useLogDepth, scene._hdr);
-    postProcess.clear(context);
+  //   postProcess.update(context, frameState.useLogDepth, scene._hdr);
+  //   postProcess.clear(context);
 
-    usePostProcess = environmentState.usePostProcess = postProcess.ready;
-    environmentState.usePostProcessSelected =
-      usePostProcess && postProcess.hasSelected;
-  }
+  //   usePostProcess = environmentState.usePostProcess = postProcess.ready;
+  //   environmentState.usePostProcessSelected =
+  //     usePostProcess && postProcess.hasSelected;
+  // }
 
-  if (environmentState.isSunVisible && scene.sunBloom && !useWebVR) {
-    passState.framebuffer = scene._sunPostProcess.update(passState);
-    scene._sunPostProcess.clear(context, passState, clearColor);
-  } else if (useGlobeDepthFramebuffer) {
+  // if (environmentState.isSunVisible && scene.sunBloom && !useWebVR) {
+  //   passState.framebuffer = scene._sunPostProcess.update(passState);
+  //   scene._sunPostProcess.clear(context, passState, clearColor);
+  // } else
+  if (useGlobeDepthFramebuffer) {
     passState.framebuffer = view.globeDepth.framebuffer;
-  } else if (usePostProcess) {
-    passState.framebuffer = view.sceneFramebuffer.getFramebuffer();
   }
+  // else if (usePostProcess) {
+  //   passState.framebuffer = view.sceneFramebuffer.getFramebuffer();
+  // }
 
   if (defined(passState.framebuffer)) {
     clear.execute(context, passState);
@@ -3527,11 +3529,11 @@ Scene.prototype.resolveFramebuffers = function (passState) {
   var usePostProcess = environmentState.usePostProcess;
 
   var defaultFramebuffer = environmentState.originalFramebuffer;
-  var globeFramebuffer = useGlobeDepthFramebuffer
-    ? globeDepth.framebuffer
-    : undefined;
+  // var globeFramebuffer = useGlobeDepthFramebuffer
+  //   ? globeDepth.framebuffer
+  //   : undefined;
   var sceneFramebuffer = view.sceneFramebuffer.getFramebuffer();
-  var idFramebuffer = view.sceneFramebuffer.getIdFramebuffer();
+  // var idFramebuffer = view.sceneFramebuffer.getIdFramebuffer();
 
   if (environmentState.separatePrimitiveFramebuffer) {
     // Merge primitive framebuffer into globe framebuffer
@@ -3545,20 +3547,20 @@ Scene.prototype.resolveFramebuffers = function (passState) {
     view.oit.execute(context, passState);
   }
 
-  if (usePostProcess) {
-    var inputFramebuffer = sceneFramebuffer;
-    if (useGlobeDepthFramebuffer && !useOIT) {
-      inputFramebuffer = globeFramebuffer;
-    }
+  // if (usePostProcess) {
+  //   var inputFramebuffer = sceneFramebuffer;
+  //   if (useGlobeDepthFramebuffer && !useOIT) {
+  //     inputFramebuffer = globeFramebuffer;
+  //   }
 
-    var postProcess = this.postProcessStages;
-    var colorTexture = inputFramebuffer.getColorTexture(0);
-    var idTexture = idFramebuffer.getColorTexture(0);
-    var depthTexture = defaultValue(globeFramebuffer, sceneFramebuffer)
-      .depthStencilTexture;
-    postProcess.execute(context, colorTexture, depthTexture, idTexture);
-    postProcess.copy(context, defaultFramebuffer);
-  }
+  //   var postProcess = this.postProcessStages;
+  //   var colorTexture = inputFramebuffer.getColorTexture(0);
+  //   var idTexture = idFramebuffer.getColorTexture(0);
+  //   var depthTexture = defaultValue(globeFramebuffer, sceneFramebuffer)
+  //     .depthStencilTexture;
+  //   postProcess.execute(context, colorTexture, depthTexture, idTexture);
+  //   postProcess.copy(context, defaultFramebuffer);
+  // }
 
   if (!useOIT && !usePostProcess && useGlobeDepthFramebuffer) {
     passState.framebuffer = defaultFramebuffer;
@@ -3718,7 +3720,7 @@ function render(scene) {
 
   scene.updateFrameState();
   frameState.passes.render = true;
-  frameState.passes.postProcess = scene.postProcessStages.hasSelected;
+  // frameState.passes.postProcess = scene.postProcessStages.hasSelected;
   // frameState.tilesetPassState = renderTilesetPassState;
 
   var backgroundColor = defaultValue(scene.backgroundColor, Color.BLACK);
@@ -4466,8 +4468,8 @@ Scene.prototype.destroy = function () {
     this._canvas.parentNode.removeChild(this._creditContainer);
   }
 
-  this.postProcessStages =
-    this.postProcessStages && this.postProcessStages.destroy();
+  // this.postProcessStages =
+  //   this.postProcessStages && this.postProcessStages.destroy();
 
   this._context = this._context && this._context.destroy();
   this._frameState.creditDisplay =
