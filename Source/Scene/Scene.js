@@ -66,7 +66,7 @@ import ScreenSpaceCameraController from "./ScreenSpaceCameraController.js";
 // import ShadowMap from "./ShadowMap.js";
 import StencilConstants from "./StencilConstants.js";
 import SunLight from "./SunLight.js";
-import SunPostProcess from "./SunPostProcess.js";
+// import SunPostProcess from "./SunPostProcess.js";
 import TweenCollection from "./TweenCollection.js";
 import View from "./View.js";
 import DebugInspector from "./DebugInspector.js";
@@ -219,7 +219,7 @@ function Scene(options) {
 
   this._shaderFrameCount = 0;
 
-  this._sunPostProcess = undefined;
+  // this._sunPostProcess = undefined;
 
   this._computeCommandList = [];
   this._overlayCommandList = [];
@@ -2327,8 +2327,8 @@ function executeCommands(scene, passState) {
         } else {
           framebuffer = environmentState.originalFramebuffer;
         }
-        scene._sunPostProcess.execute(context);
-        scene._sunPostProcess.copy(context, framebuffer);
+        // scene._sunPostProcess.execute(context);
+        // scene._sunPostProcess.copy(context, framebuffer);
         passState.framebuffer = framebuffer;
       }
     }
@@ -3383,30 +3383,30 @@ function updateAndRenderPrimitives(scene) {
 
 function updateAndClearFramebuffers(scene, passState, clearColor) {
   var context = scene._context;
-  var frameState = scene._frameState;
+  // var frameState = scene._frameState;
   var environmentState = scene._environmentState;
   var view = scene._view;
 
   var passes = scene._frameState.passes;
   var picking = passes.pick;
-  var useWebVR = environmentState.useWebVR;
+  // var useWebVR = environmentState.useWebVR;
 
   // Preserve the reference to the original framebuffer.
   environmentState.originalFramebuffer = passState.framebuffer;
 
-  // Manage sun bloom post-processing effect.
-  if (defined(scene.sun) && scene.sunBloom !== scene._sunBloom) {
-    if (scene.sunBloom && !useWebVR) {
-      scene._sunPostProcess = new SunPostProcess();
-    } else if (defined(scene._sunPostProcess)) {
-      scene._sunPostProcess = scene._sunPostProcess.destroy();
-    }
+  // // Manage sun bloom post-processing effect.
+  // if (defined(scene.sun) && scene.sunBloom !== scene._sunBloom) {
+  //   if (scene.sunBloom && !useWebVR) {
+  //     scene._sunPostProcess = new SunPostProcess();
+  //   } else if (defined(scene._sunPostProcess)) {
+  //     scene._sunPostProcess = scene._sunPostProcess.destroy();
+  //   }
 
-    scene._sunBloom = scene.sunBloom;
-  } else if (!defined(scene.sun) && defined(scene._sunPostProcess)) {
-    scene._sunPostProcess = scene._sunPostProcess.destroy();
-    scene._sunBloom = false;
-  }
+  //   scene._sunBloom = scene.sunBloom;
+  // } else if (!defined(scene.sun) && defined(scene._sunPostProcess)) {
+  //   scene._sunPostProcess = scene._sunPostProcess.destroy();
+  //   scene._sunBloom = false;
+  // }
 
   // Clear the pass state framebuffer.
   var clear = scene._clearColorCommand;
