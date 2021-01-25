@@ -1,4 +1,3 @@
-import DOMPurify from "../ThirdParty/purify.js";
 import Check from "./Check.js";
 import defaultValue from "./defaultValue.js";
 import defined from "./defined.js";
@@ -90,7 +89,7 @@ Object.defineProperties(Credit.prototype, {
   element: {
     get: function () {
       if (!defined(this._element)) {
-        var html = DOMPurify.sanitize(this._html);
+        var html = this._html;
 
         var div = document.createElement("div");
         div._creditId = this._id;
