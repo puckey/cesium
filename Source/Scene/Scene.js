@@ -2,7 +2,7 @@ import BoundingRectangle from "../Core/BoundingRectangle.js";
 import BoundingSphere from "../Core/BoundingSphere.js";
 import BoxGeometry from "../Core/BoxGeometry.js";
 import Cartesian3 from "../Core/Cartesian3.js";
-import Cartographic from "../Core/Cartographic.js";
+// import Cartographic from "../Core/Cartographic.js";
 import clone from "../Core/clone.js";
 import Color from "../Core/Color.js";
 import ColorGeometryInstanceAttribute from "../Core/ColorGeometryInstanceAttribute.js";
@@ -29,7 +29,7 @@ import PerspectiveFrustum from "../Core/PerspectiveFrustum.js";
 import PerspectiveOffCenterFrustum from "../Core/PerspectiveOffCenterFrustum.js";
 import RequestScheduler from "../Core/RequestScheduler.js";
 import TaskProcessor from "../Core/TaskProcessor.js";
-import Transforms from "../Core/Transforms.js";
+// import Transforms from "../Core/Transforms.js";
 import ClearCommand from "../Renderer/ClearCommand.js";
 import ComputeEngine from "../Renderer/ComputeEngine.js";
 import Context from "../Renderer/Context.js";
@@ -41,7 +41,7 @@ import Camera from "./Camera.js";
 // import Cesium3DTilePass from "./Cesium3DTilePass.js";
 // import Cesium3DTilePassState from "./Cesium3DTilePassState.js";
 import CreditDisplay from "./CreditDisplay.js";
-import DebugCameraPrimitive from "./DebugCameraPrimitive.js";
+// import DebugCameraPrimitive from "./DebugCameraPrimitive.js";
 import DepthPlane from "./DepthPlane.js";
 import DerivedCommand from "./DerivedCommand.js";
 // import DeviceOrientationCameraController from "./DeviceOrientationCameraController.js";
@@ -65,11 +65,11 @@ import SceneTransforms from "./SceneTransforms.js";
 import ScreenSpaceCameraController from "./ScreenSpaceCameraController.js";
 // import ShadowMap from "./ShadowMap.js";
 import StencilConstants from "./StencilConstants.js";
-import SunLight from "./SunLight.js";
+// import SunLight from "./SunLight.js";
 // import SunPostProcess from "./SunPostProcess.js";
 import TweenCollection from "./TweenCollection.js";
 import View from "./View.js";
-import DebugInspector from "./DebugInspector.js";
+// import DebugInspector from "./DebugInspector.js";
 
 var requestRenderAfterFrame = function (scene) {
   return function () {
@@ -260,7 +260,7 @@ function Scene(options) {
   this._postRender = new Event();
 
   this._minimumDisableDepthTestDistance = 0.0;
-  this._debugInspector = new DebugInspector();
+  // this._debugInspector = new DebugInspector();
 
   /**
    * Exceptions occurring in <code>render</code> are always caught in order to raise the
@@ -754,7 +754,7 @@ function Scene(options) {
    * The light source for shading. Defaults to a directional light from the Sun.
    * @type {Light}
    */
-  this.light = new SunLight();
+  // this.light = new SunLight();
 
   // Give frameState, camera, and screen space camera controller initial state before rendering
   updateFrameNumber(this, 0.0, JulianDate.now());
@@ -2138,14 +2138,14 @@ function executeCommand(command, scene, context, passState, debugFramebuffer) {
     }
   }
 
-  if (scene.debugShowCommands || scene.debugShowFrustums) {
-    scene._debugInspector.executeDebugShowFrustumsCommand(
-      scene,
-      command,
-      passState
-    );
-    return;
-  }
+  // if (scene.debugShowCommands || scene.debugShowFrustums) {
+  //   scene._debugInspector.executeDebugShowFrustumsCommand(
+  //     scene,
+  //     command,
+  //     passState
+  //   );
+  //   return;
+  // }
 
   if (
     frameState.shadowState.lightShadowsEnabled &&
@@ -2870,7 +2870,7 @@ function executeOverlayCommands(scene, passState) {
 //   }
 // }
 
-var scratchEyeTranslation = new Cartesian3();
+// var scratchEyeTranslation = new Cartesian3();
 
 /**
  * @private
@@ -3176,7 +3176,7 @@ Scene.prototype.updateEnvironment = function () {
   // Update celestial and terrestrial environment effects.
   var environmentState = this._environmentState;
   var renderPass = frameState.passes.render;
-  var offscreenPass = frameState.passes.offscreen;
+  // var offscreenPass = frameState.passes.offscreen;
   var skyAtmosphere = this.skyAtmosphere;
   var globe = this.globe;
   var globeTranslucencyState = this._globeTranslucencyState;
@@ -3297,26 +3297,26 @@ Scene.prototype.updateEnvironment = function () {
   }
 };
 
-function updateDebugFrustumPlanes(scene) {
-  var frameState = scene._frameState;
-  if (scene.debugShowFrustumPlanes !== scene._debugShowFrustumPlanes) {
-    if (scene.debugShowFrustumPlanes) {
-      scene._debugFrustumPlanes = new DebugCameraPrimitive({
-        camera: scene.camera,
-        updateOnChange: false,
-        frustumSplits: frameState.frustumSplits,
-      });
-    } else {
-      scene._debugFrustumPlanes =
-        scene._debugFrustumPlanes && scene._debugFrustumPlanes.destroy();
-    }
-    scene._debugShowFrustumPlanes = scene.debugShowFrustumPlanes;
-  }
+// function updateDebugFrustumPlanes(scene) {
+//   var frameState = scene._frameState;
+//   if (scene.debugShowFrustumPlanes !== scene._debugShowFrustumPlanes) {
+//     if (scene.debugShowFrustumPlanes) {
+//       scene._debugFrustumPlanes = new DebugCameraPrimitive({
+//         camera: scene.camera,
+//         updateOnChange: false,
+//         frustumSplits: frameState.frustumSplits,
+//       });
+//     } else {
+//       scene._debugFrustumPlanes =
+//         scene._debugFrustumPlanes && scene._debugFrustumPlanes.destroy();
+//     }
+//     scene._debugShowFrustumPlanes = scene.debugShowFrustumPlanes;
+//   }
 
-  if (defined(scene._debugFrustumPlanes)) {
-    scene._debugFrustumPlanes.update(frameState);
-  }
-}
+//   if (defined(scene._debugFrustumPlanes)) {
+//     scene._debugFrustumPlanes.update(frameState);
+//   }
+// }
 
 // function updateShadowMaps(scene) {
 //   var frameState = scene._frameState;
@@ -3373,7 +3373,7 @@ function updateAndRenderPrimitives(scene) {
   scene._groundPrimitives.update(frameState);
   scene._primitives.update(frameState);
 
-  updateDebugFrustumPlanes(scene);
+  // updateDebugFrustumPlanes(scene);
   // updateShadowMaps(scene);
 
   if (scene._globe) {
