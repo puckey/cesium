@@ -13,12 +13,12 @@ import Camera from "./Camera.js";
 import FrustumCommands from "./FrustumCommands.js";
 import GlobeDepth from "./GlobeDepth.js";
 import GlobeTranslucencyFramebuffer from "./GlobeTranslucencyFramebuffer.js";
-import OIT from "./OIT.js";
+// import OIT from "./OIT.js";
 import PickDepthFramebuffer from "./PickDepthFramebuffer.js";
 import PickFramebuffer from "./PickFramebuffer.js";
 import SceneFramebuffer from "./SceneFramebuffer.js";
 import SceneMode from "./SceneMode.js";
-import ShadowMap from "./ShadowMap.js";
+// import ShadowMap from "./ShadowMap.js";
 
 function CommandExtent() {
   this.command = undefined;
@@ -37,10 +37,10 @@ function View(scene, camera, viewport) {
     globeDepth = new GlobeDepth();
   }
 
-  var oit;
-  if (scene._useOIT && context.depthTexture) {
-    oit = new OIT(context);
-  }
+  // var oit;
+  // if (scene._useOIT && context.depthTexture) {
+  //   oit = new OIT(context);
+  // }
 
   var passState = new PassState(context);
   passState.viewport = BoundingRectangle.clone(viewport);
@@ -57,7 +57,7 @@ function View(scene, camera, viewport) {
   this.sceneFramebuffer = new SceneFramebuffer();
   this.globeDepth = globeDepth;
   this.globeTranslucencyFramebuffer = new GlobeTranslucencyFramebuffer();
-  this.oit = oit;
+  // this.oit = oit;
   this.pickDepths = [];
   this.debugGlobeDepths = [];
   this.frustumCommandsList = [];
@@ -315,20 +315,20 @@ View.prototype.createPotentiallyVisibleSet = function (scene) {
         // When moving the camera low LOD globe tiles begin to load, whose bounding volumes
         // throw off the near/far fitting for the shadow map. Only update for globe tiles that the
         // camera isn't inside.
-        if (
-          shadowsEnabled &&
-          command.receiveShadows &&
-          commandNear < ShadowMap.MAXIMUM_DISTANCE &&
-          !(pass === Pass.GLOBE && commandNear < -100.0 && commandFar > 100.0)
-        ) {
-          // Get the smallest bounding volume the camera is near. This is used to place more shadow detail near the object.
-          var size = commandFar - commandNear;
-          if (pass !== Pass.GLOBE && commandNear < 100.0) {
-            shadowClosestObjectSize = Math.min(shadowClosestObjectSize, size);
-          }
-          shadowNear = Math.min(shadowNear, commandNear);
-          shadowFar = Math.max(shadowFar, commandFar);
-        }
+        // if (
+        //   shadowsEnabled &&
+        //   command.receiveShadows &&
+        //   commandNear < ShadowMap.MAXIMUM_DISTANCE &&
+        //   !(pass === Pass.GLOBE && commandNear < -100.0 && commandFar > 100.0)
+        // ) {
+        //   // Get the smallest bounding volume the camera is near. This is used to place more shadow detail near the object.
+        //   var size = commandFar - commandNear;
+        //   if (pass !== Pass.GLOBE && commandNear < 100.0) {
+        //     shadowClosestObjectSize = Math.min(shadowClosestObjectSize, size);
+        //   }
+        //   shadowNear = Math.min(shadowNear, commandNear);
+        //   shadowFar = Math.max(shadowFar, commandFar);
+        // }
       } else if (command instanceof ClearCommand) {
         // Clear commands don't need a bounding volume - just add the clear to all frustums.
         commandNear = camera.frustum.near;
@@ -410,7 +410,7 @@ View.prototype.destroy = function () {
   this.sceneFramebuffer =
     this.sceneFramebuffer && this.sceneFramebuffer.destroy();
   this.globeDepth = this.globeDepth && this.globeDepth.destroy();
-  this.oit = this.oit && this.oit.destroy();
+  // this.oit = this.oit && this.oit.destroy();
   this.globeTranslucencyFramebuffer =
     this.globeTranslucencyFramebuffer &&
     this.globeTranslucencyFramebuffer.destroy();
