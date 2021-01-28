@@ -372,34 +372,273 @@ function ArcGisMapServerImageryProvider(options) {
     TileProviderError.handleSuccess(metadataError);
   }
 
-  function metadataFailure(e) {
-    var message =
-      "An error occurred while accessing " + that._resource.url + ".";
-    metadataError = TileProviderError.handleError(
-      metadataError,
-      that,
-      that._errorEvent,
-      message,
-      undefined,
-      undefined,
-      undefined,
-      requestMetadata
-    );
-    that._readyPromise.reject(new RuntimeError(message));
-  }
-
-  function requestMetadata() {
-    var resource = that._resource.getDerivedResource({
-      queryParameters: {
-        f: "json",
-      },
-    });
-    var metadata = resource.fetchJsonp();
-    when(metadata, metadataSuccess, metadataFailure);
-  }
-
   if (this._useTiles) {
-    requestMetadata();
+    metadataSuccess({
+      // currentVersion: 10.6,
+      // serviceDescription:
+      //   'World Imagery provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide. The map includes 15m TerraColor imagery at small and mid-scales (591M down to 72k) and 2.5m SPOT Imagery (288k to 72k) for the world, and USGS 15m Landsat imagery for Antarctica. The map features 0.3m resolution imagery in the continental United States and 0.6m resolution imagery in parts of Western Europe from Digital Globe. Recent 1m USDA NAIP imagery is available in select states of the US. In other parts of the world, 1 meter resolution imagery is available from GeoEye IKONOS, AeroGRID, and IGN Spain. Additionally, imagery at different resolutions has been contributed by the GIS User Community. For more information on this map, including the terms of use, visit us <a href="http://goto.arcgisonline.com/maps/World_Imagery " target="_new" >online</a>.',
+      // mapName: 'Layers',
+      // description:
+      //   'World Imagery provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide. The map includes 15m TerraColor imagery at small and mid-scales (591M down to 72k) and 2.5m SPOT Imagery (288k to 72k) for the world, and USGS 15m Landsat imagery for Antarctica. The map features 0.3m resolution imagery in the continental United States and 0.6m resolution imagery in parts of Western Europe from Digital Globe. Recent 1m USDA NAIP imagery is available in select states of the US. In other parts of the world, 1 meter resolution imagery is available from GeoEye IKONOS, AeroGRID, and IGN Spain. Additionally, imagery at different resolutions has been contributed by the GIS User Community. For more information on this map, including the terms of use, visit us online at http://goto.arcgisonline.com/maps/World_Imagery',
+      // copyrightText:
+      //   'Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community',
+      // supportsDynamicLayers: false,
+      layers: [
+        {
+          id: 0,
+          name: "World Imagery",
+          parentLayerId: -1,
+          defaultVisibility: true,
+          subLayerIds: null,
+          minScale: 0,
+          maxScale: 0,
+        },
+        {
+          id: 1,
+          name: "Low Resolution 15m Imagery",
+          parentLayerId: -1,
+          defaultVisibility: true,
+          subLayerIds: null,
+          minScale: 0,
+          maxScale: 0,
+        },
+        {
+          id: 2,
+          name: "High Resolution 60cm Imagery",
+          parentLayerId: -1,
+          defaultVisibility: true,
+          subLayerIds: null,
+          minScale: 0,
+          maxScale: 0,
+        },
+        {
+          id: 3,
+          name: "High Resolution 30cm Imagery",
+          parentLayerId: -1,
+          defaultVisibility: true,
+          subLayerIds: null,
+          minScale: 0,
+          maxScale: 0,
+        },
+        {
+          id: 4,
+          name: "Citations",
+          parentLayerId: -1,
+          defaultVisibility: true,
+          subLayerIds: null,
+          minScale: 0,
+          maxScale: 0,
+        },
+      ],
+      tables: [],
+      spatialReference: {
+        wkid: 102100,
+        latestWkid: 3857,
+      },
+      singleFusedMapCache: true,
+      tileInfo: {
+        rows: 256,
+        cols: 256,
+        dpi: 96,
+        format: "JPEG",
+        compressionQuality: 75,
+        origin: {
+          x: -2.0037508342787e7,
+          y: 2.0037508342787e7,
+        },
+        spatialReference: {
+          wkid: 102100,
+          latestWkid: 3857,
+        },
+        lods: [
+          {
+            level: 0,
+            resolution: 156543.03392800014,
+            scale: 5.91657527591555e8,
+          },
+          {
+            level: 1,
+            resolution: 78271.51696399994,
+            scale: 2.95828763795777e8,
+          },
+          {
+            level: 2,
+            resolution: 39135.75848200009,
+            scale: 1.47914381897889e8,
+          },
+          {
+            level: 3,
+            resolution: 19567.87924099992,
+            scale: 7.3957190948944e7,
+          },
+          {
+            level: 4,
+            resolution: 9783.93962049996,
+            scale: 3.6978595474472e7,
+          },
+          {
+            level: 5,
+            resolution: 4891.96981024998,
+            scale: 1.8489297737236e7,
+          },
+          {
+            level: 6,
+            resolution: 2445.98490512499,
+            scale: 9244648.868618,
+          },
+          {
+            level: 7,
+            resolution: 1222.992452562495,
+            scale: 4622324.434309,
+          },
+          {
+            level: 8,
+            resolution: 611.4962262813797,
+            scale: 2311162.217155,
+          },
+          {
+            level: 9,
+            resolution: 305.74811314055756,
+            scale: 1155581.108577,
+          },
+          {
+            level: 10,
+            resolution: 152.87405657041106,
+            scale: 577790.554289,
+          },
+          {
+            level: 11,
+            resolution: 76.43702828507324,
+            scale: 288895.277144,
+          },
+          {
+            level: 12,
+            resolution: 38.21851414253662,
+            scale: 144447.638572,
+          },
+          {
+            level: 13,
+            resolution: 19.10925707126831,
+            scale: 72223.819286,
+          },
+          {
+            level: 14,
+            resolution: 9.554628535634155,
+            scale: 36111.909643,
+          },
+          {
+            level: 15,
+            resolution: 4.77731426794937,
+            scale: 18055.954822,
+          },
+          {
+            level: 16,
+            resolution: 2.388657133974685,
+            scale: 9027.977411,
+          },
+          {
+            level: 17,
+            resolution: 1.1943285668550503,
+            scale: 4513.988705,
+          },
+          {
+            level: 18,
+            resolution: 0.5971642835598172,
+            scale: 2256.994353,
+          },
+          {
+            level: 19,
+            resolution: 0.29858214164761665,
+            scale: 1128.497176,
+          },
+          {
+            level: 20,
+            resolution: 0.14929107082380833,
+            scale: 564.248588,
+          },
+          {
+            level: 21,
+            resolution: 0.07464553541190416,
+            scale: 282.124294,
+          },
+          {
+            level: 22,
+            resolution: 0.03732276770595208,
+            scale: 141.062147,
+          },
+          {
+            level: 23,
+            resolution: 0.01866138385297604,
+            scale: 70.5310735,
+          },
+        ],
+      },
+      initialExtent: {
+        xmin: -2.003750722959434e7,
+        ymin: -1.997186888040859e7,
+        xmax: 2.003750722959434e7,
+        ymax: 1.9971868880408563e7,
+        spatialReference: {
+          wkid: 102100,
+          latestWkid: 3857,
+        },
+      },
+      fullExtent: {
+        xmin: -2.003750722959434e7,
+        ymin: -1.997186888040859e7,
+        xmax: 2.003750722959434e7,
+        ymax: 1.9971868880408563e7,
+        spatialReference: {
+          wkid: 102100,
+          latestWkid: 3857,
+        },
+      },
+      // minScale: 0,
+      // maxScale: 0,
+      // units: 'esriMeters',
+      // supportedImageFormatTypes:
+      //   'PNG32,PNG24,PNG,JPG,DIB,TIFF,EMF,PS,PDF,GIF,SVG,SVGZ,BMP',
+      // documentInfo: {
+      //   Title: 'World Imagery',
+      //   Author: 'Esri',
+      //   Comments: '',
+      //   Subject: 'imagery, satellite, aerial, 500m (World), 15m (World)',
+      //   Category: 'imageryBaseMapsEarthCover (Imagery, basemaps, and land cover)',
+      //   AntialiasingMode: 'None',
+      //   TextAntialiasingMode: 'Force',
+      //   Keywords: 'World,Global,United States'
+      // },
+      // capabilities: 'Map,Tilemap,Query,Data',
+      // supportedQueryFormats: 'JSON, AMF, geoJSON',
+      // exportTilesAllowed: false,
+      // datumTransformations: [
+      //   {
+      //     geoTransforms: [
+      //       {
+      //         wkid: 108001,
+      //         latestWkid: 1241,
+      //         transformForward: true,
+      //         name: 'NAD_1927_To_NAD_1983_NADCON'
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     geoTransforms: [
+      //       {
+      //         wkid: 108001,
+      //         latestWkid: 1241,
+      //         transformForward: false,
+      //         name: 'NAD_1927_To_NAD_1983_NADCON'
+      //       }
+      //     ]
+      //   }
+      // ],
+      // supportsDatumTransformation: true,
+      // maxRecordCount: 100,
+      // maxImageHeight: 4096,
+      // maxImageWidth: 4096,
+      // supportedExtensions: 'KmlServer'
+    });
   } else {
     this._ready = true;
     this._readyPromise.resolve(true);
@@ -813,117 +1052,117 @@ ArcGisMapServerImageryProvider.prototype.requestImage = function (
      *
      * @exception {DeveloperError} <code>pickFeatures</code> must not be called before the imagery provider is ready.
      */
-ArcGisMapServerImageryProvider.prototype.pickFeatures = function (
-  x,
-  y,
-  level,
-  longitude,
-  latitude
-) {
-  //>>includeStart('debug', pragmas.debug);
-  if (!this._ready) {
-    throw new DeveloperError(
-      "pickFeatures must not be called before the imagery provider is ready."
-    );
-  }
-  //>>includeEnd('debug');
+// ArcGisMapServerImageryProvider.prototype.pickFeatures = function (
+//   x,
+//   y,
+//   level,
+//   longitude,
+//   latitude
+// ) {
+//   //>>includeStart('debug', pragmas.debug);
+//   if (!this._ready) {
+//     throw new DeveloperError(
+//       "pickFeatures must not be called before the imagery provider is ready."
+//     );
+//   }
+//   //>>includeEnd('debug');
 
-  if (!this.enablePickFeatures) {
-    return undefined;
-  }
+//   if (!this.enablePickFeatures) {
+//     return undefined;
+//   }
 
-  var rectangle = this._tilingScheme.tileXYToNativeRectangle(x, y, level);
+//   var rectangle = this._tilingScheme.tileXYToNativeRectangle(x, y, level);
 
-  var horizontal;
-  var vertical;
-  var sr;
-  if (this._tilingScheme.projection instanceof GeographicProjection) {
-    horizontal = CesiumMath.toDegrees(longitude);
-    vertical = CesiumMath.toDegrees(latitude);
-    sr = "4326";
-  } else {
-    var projected = this._tilingScheme.projection.project(
-      new Cartographic(longitude, latitude, 0.0)
-    );
-    horizontal = projected.x;
-    vertical = projected.y;
-    sr = "3857";
-  }
+//   var horizontal;
+//   var vertical;
+//   var sr;
+//   if (this._tilingScheme.projection instanceof GeographicProjection) {
+//     horizontal = CesiumMath.toDegrees(longitude);
+//     vertical = CesiumMath.toDegrees(latitude);
+//     sr = "4326";
+//   } else {
+//     var projected = this._tilingScheme.projection.project(
+//       new Cartographic(longitude, latitude, 0.0)
+//     );
+//     horizontal = projected.x;
+//     vertical = projected.y;
+//     sr = "3857";
+//   }
 
-  var layers = "visible";
-  if (defined(this._layers)) {
-    layers += ":" + this._layers;
-  }
+//   var layers = "visible";
+//   if (defined(this._layers)) {
+//     layers += ":" + this._layers;
+//   }
 
-  var query = {
-    f: "json",
-    tolerance: 2,
-    geometryType: "esriGeometryPoint",
-    geometry: horizontal + "," + vertical,
-    mapExtent:
-      rectangle.west +
-      "," +
-      rectangle.south +
-      "," +
-      rectangle.east +
-      "," +
-      rectangle.north,
-    imageDisplay: this._tileWidth + "," + this._tileHeight + ",96",
-    sr: sr,
-    layers: layers,
-  };
+//   var query = {
+//     f: "json",
+//     tolerance: 2,
+//     geometryType: "esriGeometryPoint",
+//     geometry: horizontal + "," + vertical,
+//     mapExtent:
+//       rectangle.west +
+//       "," +
+//       rectangle.south +
+//       "," +
+//       rectangle.east +
+//       "," +
+//       rectangle.north,
+//     imageDisplay: this._tileWidth + "," + this._tileHeight + ",96",
+//     sr: sr,
+//     layers: layers,
+//   };
 
-  var resource = this._resource.getDerivedResource({
-    url: "identify",
-    queryParameters: query,
-  });
+//   var resource = this._resource.getDerivedResource({
+//     url: "identify",
+//     queryParameters: query,
+//   });
 
-  return resource.fetchJson().then(function (json) {
-    var result = [];
+//   return resource.fetchJson().then(function (json) {
+//     var result = [];
 
-    var features = json.results;
-    if (!defined(features)) {
-      return result;
-    }
+//     var features = json.results;
+//     if (!defined(features)) {
+//       return result;
+//     }
 
-    for (var i = 0; i < features.length; ++i) {
-      var feature = features[i];
+//     for (var i = 0; i < features.length; ++i) {
+//       var feature = features[i];
 
-      var featureInfo = new ImageryLayerFeatureInfo();
-      featureInfo.data = feature;
-      featureInfo.name = feature.value;
-      featureInfo.properties = feature.attributes;
-      featureInfo.configureDescriptionFromProperties(feature.attributes);
+//       var featureInfo = new ImageryLayerFeatureInfo();
+//       featureInfo.data = feature;
+//       featureInfo.name = feature.value;
+//       featureInfo.properties = feature.attributes;
+//       featureInfo.configureDescriptionFromProperties(feature.attributes);
 
-      // If this is a point feature, use the coordinates of the point.
-      if (feature.geometryType === "esriGeometryPoint" && feature.geometry) {
-        var wkid =
-          feature.geometry.spatialReference &&
-          feature.geometry.spatialReference.wkid
-            ? feature.geometry.spatialReference.wkid
-            : 4326;
-        if (wkid === 4326 || wkid === 4283) {
-          featureInfo.position = Cartographic.fromDegrees(
-            feature.geometry.x,
-            feature.geometry.y,
-            feature.geometry.z
-          );
-        } else if (wkid === 102100 || wkid === 900913 || wkid === 3857) {
-          var projection = new WebMercatorProjection();
-          featureInfo.position = projection.unproject(
-            new Cartesian3(
-              feature.geometry.x,
-              feature.geometry.y,
-              feature.geometry.z
-            )
-          );
-        }
-      }
+//       // If this is a point feature, use the coordinates of the point.
+//       if (feature.geometryType === "esriGeometryPoint" && feature.geometry) {
+//         var wkid =
+//           feature.geometry.spatialReference &&
+//           feature.geometry.spatialReference.wkid
+//             ? feature.geometry.spatialReference.wkid
+//             : 4326;
+//         if (wkid === 4326 || wkid === 4283) {
+//           featureInfo.position = Cartographic.fromDegrees(
+//             feature.geometry.x,
+//             feature.geometry.y,
+//             feature.geometry.z
+//           );
+//         } else if (wkid === 102100 || wkid === 900913 || wkid === 3857) {
+//           var projection = new WebMercatorProjection();
+//           featureInfo.position = projection.unproject(
+//             new Cartesian3(
+//               feature.geometry.x,
+//               feature.geometry.y,
+//               feature.geometry.z
+//             )
+//           );
+//         }
+//       }
 
-      result.push(featureInfo);
-    }
+//       result.push(featureInfo);
+//     }
 
-    return result;
-  });
-};
+//     return result;
+//   });
+// };
 export default ArcGisMapServerImageryProvider;
