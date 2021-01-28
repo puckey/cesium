@@ -728,7 +728,10 @@ function Scene(options) {
    */
   this.preloadFlightCullingVolume = undefined;
 
-  // this._picking = new Picking(this);
+  this._picking = {
+    pickPositionWorldCoordinates: function () {},
+  };
+
   this._defaultView = new View(this, camera, viewport);
   this._view = this._defaultView;
 
