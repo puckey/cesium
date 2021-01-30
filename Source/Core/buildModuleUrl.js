@@ -120,6 +120,9 @@ function buildModuleUrl(relativeUrl) {
   }
 
   var url = implementation(relativeUrl);
+  if (/\.[a-z]{1,3}$/.test(url)) {
+    url += "?cache=0";
+  }
   return url;
 }
 
